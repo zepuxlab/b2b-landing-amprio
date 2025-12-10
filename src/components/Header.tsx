@@ -38,7 +38,7 @@ const Header = () => {
 
           {/* Center - Logo */}
           <div className="flex flex-col items-center md:absolute md:left-1/2 md:-translate-x-1/2">
-            <img src={logoSvg} alt="Amprio Milano" className="h-6 md:h-7" />
+            <img src={logoSvg} alt="Amprio Milano" className="h-8 md:h-10" />
           </div>
 
           {/* Right - Contact (Desktop) */}
@@ -85,7 +85,7 @@ const Header = () => {
         <div className="flex flex-col h-full">
           {/* Menu Header */}
           <div className="flex items-center justify-between p-4 border-b border-primary-foreground/10">
-            <img src={logoSvg} alt="Amprio Milano" className="h-6" />
+            <img src={logoSvg} alt="Amprio Milano" className="h-8" />
             <button
               onClick={() => setIsMenuOpen(false)}
               className="p-2 text-primary-foreground"
