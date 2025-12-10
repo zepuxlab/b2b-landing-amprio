@@ -34,7 +34,8 @@
     --input: 210 20% 90%;
     --ring: 196 58% 28%;
 
-    --radius: 0.5rem;
+    --radius: 7px;
+    --radius-button: 3px;
 
     /* Custom brand colors */
     --brand-teal: 196 58% 28%;
@@ -112,13 +113,15 @@
 
 @layer components {
   .btn-primary {
-    @apply bg-accent text-accent-foreground px-8 py-3 rounded-md text-lg font-medium 
+    @apply bg-accent text-accent-foreground px-8 py-3 text-lg font-medium 
            transition-all duration-300 hover:opacity-90 hover:shadow-lg;
+    border-radius: var(--radius-button);
   }
 
   .btn-outline {
-    @apply border-2 border-primary-foreground text-primary-foreground px-6 py-2 rounded-md
+    @apply border-2 border-primary-foreground text-primary-foreground px-6 py-2
            transition-all duration-300 hover:bg-primary-foreground hover:text-primary;
+    border-radius: var(--radius-button);
   }
 
   .section-title {
