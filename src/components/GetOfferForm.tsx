@@ -89,7 +89,7 @@ const GetOfferForm = () => {
         <div className="absolute inset-0 bg-primary/85 backdrop-blur-sm" />
         
         <div className="relative z-10 w-full max-w-md py-8 md:py-0">
-          <h2 className="font-serif text-primary-foreground mb-2 text-center uppercase tracking-wide">
+          <h2 className="font-serif text-primary-foreground mb-2 text-center uppercase tracking-wide leading-relaxed">
             Get Your Exclusive Offer
           </h2>
           <p className="text-primary-foreground/80 text-center mb-8">

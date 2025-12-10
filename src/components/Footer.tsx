@@ -2,12 +2,21 @@ import { Phone, Mail, Instagram, Facebook, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary bg-noise py-12 md:py-16 scroll-section-content">
-      <div className="container mx-auto px-3 md:px-4">
+    <footer className="bg-primary py-12 md:py-16 scroll-section-content relative overflow-hidden">
+      {/* Pattern background */}
+      <div 
+        className="absolute inset-0 opacity-5 pointer-events-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          backgroundSize: '30px 30px'
+        }}
+      />
+      
+      <div className="container mx-auto px-3 md:px-4 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12">
           {/* Contact */}
           <div className="text-center md:text-left">
-            <h4 className="text-primary-foreground mb-4 font-medium font-sans">
+            <h4 className="text-primary-foreground mb-4 font-medium font-sans leading-relaxed">
               Contact Us
             </h4>
             <a
@@ -21,7 +30,7 @@ const Footer = () => {
           
           {/* Social */}
           <div className="text-center">
-            <h4 className="text-primary-foreground mb-4 font-medium font-sans">
+            <h4 className="text-primary-foreground mb-4 font-medium font-sans leading-relaxed">
               Follow Us
             </h4>
             <div className="flex items-center justify-center gap-4">
@@ -51,7 +60,7 @@ const Footer = () => {
           
           {/* B2C Link */}
           <div className="text-center md:text-right">
-            <h4 className="text-primary-foreground mb-4 font-medium font-sans">
+            <h4 className="text-primary-foreground mb-4 font-medium font-sans leading-relaxed">
               For Retail Customers
             </h4>
             <a

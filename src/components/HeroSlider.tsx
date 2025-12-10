@@ -21,6 +21,8 @@ const HeroSlider = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [parallaxOffset, setParallaxOffset] = useState(0);
   const sectionRef = useRef<HTMLElement>(null);
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
 
   const nextSlide = useCallback(() => {
     if (isAnimating) return;
@@ -35,6 +37,25 @@ const HeroSlider = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
     setTimeout(() => setIsAnimating(false), 500);
   }, [isAnimating]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartX.current - touchEndX.current;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(nextSlide, 5000);
@@ -56,7 +77,13 @@ const HeroSlider = () => {
   };
 
   return (
-    <section ref={sectionRef} className="relative h-screen w-full overflow-hidden">
+    <section 
+      ref={sectionRef} 
+      className="relative h-screen w-full overflow-hidden"
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
+    >
       {/* Slides with Parallax */}
       {slides.map((slide, index) => (
         <div
@@ -78,17 +105,17 @@ const HeroSlider = () => {
 
       {/* Content */}
       <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-3 md:px-4">
-        <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-primary-foreground mb-4 animate-fade-in max-w-5xl leading-tight uppercase tracking-wide">
+        <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-primary-foreground mb-4 animate-fade-in max-w-5xl leading-[1.3] md:leading-[1.25] uppercase tracking-wide">
           Unbreakable Glassware Stock
           <br />
           <span className="text-primary-foreground">Liquidation Sale -60%</span>
         </h1>
-        <p className="text-primary-foreground text-lg md:text-xl mb-8 animate-fade-in max-w-2xl" style={{ animationDelay: "0.2s" }}>
+        <p className="text-primary-foreground text-lg md:text-xl mb-8 animate-fade-in max-w-2xl leading-relaxed" style={{ animationDelay: "0.2s" }}>
           Italian unbreakable tableware available in Dubai
         </p>
         <button
           onClick={scrollToForm}
-          className="btn-light text-lg md:text-xl animate-fade-in"
+          className="btn-light text-base animate-fade-in"
           style={{ animationDelay: "0.4s" }}
         >
           Get Exclusive Offer
