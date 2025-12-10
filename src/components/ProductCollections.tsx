@@ -1,36 +1,48 @@
 import { useRef, useState, useEffect } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import NavigationButtons from "./NavigationButtons";
 
 const collections = [
   {
     name: "Aqua",
-    description: "Crystal-clear unbreakable glasses perfect for poolside and outdoor dining.",
-    image: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=600&q=80",
+    description: "Crafted in premium acrylic, each wine glass, tumbler and pitcher radiates crystal clarity yet withstands lively",
+    image: "/images/Aqua_1.jpg.webp",
+    imageHover: "/images/Aqua_2.jpg.webp",
   },
   {
     name: "Cosmopolitan",
-    description: "Sophisticated cocktail glasses for upscale bars and lounges.",
-    image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=600&q=80",
+    description: "Lightweight yet durable melamine delivers Asian-inspired minimalism and practical elegance—perfect for modern city living",
+    image: "/images/COSMOPOLITAN_9.jpg.webp",
+    imageHover: "/images/COSMOPOLITAN_2.jpg.webp",
   },
   {
     name: "Breeze",
-    description: "Lightweight and elegant designs for casual fine dining.",
-    image: "https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=600&q=80",
+    description: "Unbreakable clarity meets Italian style, for indoor and poolside soirées. Glassware sets with sleek polycarbonate tumblers, wine, beer and cocktail glasses.",
+    image: "/images/iPhone_16_Plus_-_1.jpg.webp",
+    imageHover: "/images/Brreze_2.jpg.webp",
   },
   {
     name: "Avant Guard",
-    description: "Modern geometric shapes for contemporary venues.",
-    image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?w=600&q=80",
+    description: "An exclusive collection of melamine plates and serving dishes designed to excel of the HORECA industry. Skillfully elegance of porcelain-like finishes with the practicality and distinctive lightness of melamine.",
+    image: "/images/avant-guard_1.jpg.webp",
+    imageHover: "/images/AVANT_GUARD_44.jpg.webp",
   },
   {
-    name: "Classico",
-    description: "Timeless Italian designs for traditional hospitality.",
-    image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80",
+    name: "Baroque & Rock",
+    description: "Premium acrylic glasses, jars and cake stands merge ornate crowns and rock-chic skulls with lightweight durability",
+    image: "/images/baroque_rock_1.jpg.webp",
+    imageHover: "/images/baroque_rock_2.jpg.webp",
   },
   {
-    name: "Prestige",
-    description: "Premium collection for five-star hotels and fine dining.",
-    image: "https://images.unsplash.com/photo-1510812431401-41d2bd2722f3?w=600&q=80",
+    name: "Cheers",
+    description: "Premium acrylic flutes, wine and water glasses, ready for yachts, poolsides or intimate dinners",
+    image: "/images/CHEERS_4_1.jpg.webp",
+    imageHover: "/images/cheers_2.jpg.webp",
+  },
+  {
+    name: "Chic & Zen",
+    description: "Crafted from shatter-resistant acrylic, each piece fuses refined lines with playful optical detail, delivering lightweight luxury",
+    image: "/images/chic_Zen_1.jpg.webp",
+    imageHover: "/images/chic_Zen_2.jpg.webp",
   },
 ];
 
@@ -42,8 +54,42 @@ const ProductCollections = () => {
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
+  // Функция для плавной прокрутки с easing
+  const smoothScrollTo = (target: number, duration: number) => {
+    const start = window.pageYOffset;
+    const distance = target - start;
+    let startTime: number | null = null;
+
+    const easeInOutCubic = (t: number): number => {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    };
+
+    const animation = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+
+      window.scrollTo(0, start + distance * ease);
+
+      if (timeElapsed < duration) {
+        requestAnimationFrame(animation);
+      }
+    };
+
+    requestAnimationFrame(animation);
+  };
+
   const scrollToForm = () => {
-    document.getElementById("get-offer")?.scrollIntoView({ behavior: "smooth" });
+    const formElement = document.getElementById("get-offer");
+    if (formElement) {
+      const headerHeight = 65; // Высота header (h-18 = 72px + padding) + дополнительный offset
+      const elementPosition = formElement.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - headerHeight;
+      
+      // Плавная прокрутка с easing функцией
+      smoothScrollTo(offsetPosition, 400);
+    }
   };
 
   const checkScroll = () => {
@@ -98,51 +144,42 @@ const ProductCollections = () => {
 
   return (
     <section id="collections" className="py-16 md:py-24 bg-background bg-noise-light scroll-section-content">
-      <div className="container mx-auto px-3 md:px-4">
-        <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-          {/* Left side - Title & Description */}
-          <div className="flex-shrink-0 md:w-[280px] flex flex-col text-center md:text-left">
-            <h2 className="font-serif text-primary mb-4 uppercase tracking-wide leading-relaxed">
-              Collections<br />In Stock
+      <div className="container mx-auto max-w-[1440px] px-3 md:px-4">
+        <div className="flex flex-col gap-6 md:gap-8">
+          {/* Title & Description - Top with Navigation */}
+          <div className="flex flex-col text-center relative">
+            <h2 className="font-serif text-primary mb-3 uppercase tracking-wide leading-relaxed">
+              Collections In Stock
             </h2>
-            <p className="text-muted-foreground leading-relaxed">
-              Italian unbreakable tableware available in Dubai warehouse. 
-              Next day sample delivery.
+            
+            <p className="text-muted-foreground leading-relaxed mb-3" style={{ fontSize: '16.5px' }}>
+              Italian unbreakable tableware available in Dubai warehouse.
             </p>
+            
+            <div className="hidden md:flex items-center justify-end gap-4 absolute right-0 top-[calc(50%-0.75rem)] -translate-y-1/2 pointer-events-none">
+              <NavigationButtons
+                onLeft={() => scroll("left")}
+                onRight={() => scroll("right")}
+                canScrollLeft={canScrollLeft}
+                canScrollRight={canScrollRight}
+                variant="primary"
+              />
+            </div>
           </div>
 
-          {/* Right side - Slider */}
-          <div className="flex-1 relative min-w-0 w-full">
-            {/* Navigation - Hidden on mobile */}
-            <button
-              onClick={() => scroll("left")}
-              className={`hidden md:flex absolute -left-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border items-center justify-center shadow-sm transition-all ${
-                canScrollLeft ? "opacity-100 hover:bg-muted" : "opacity-40 pointer-events-none"
-              }`}
-              aria-label="Scroll left"
-            >
-              <ChevronLeft className="w-5 h-5 text-primary" />
-            </button>
-
-            <button
-              onClick={() => scroll("right")}
-              className={`hidden md:flex absolute -right-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border items-center justify-center shadow-sm transition-all ${
-                canScrollRight ? "opacity-100 hover:bg-muted" : "opacity-40 pointer-events-none"
-              }`}
-              aria-label="Scroll right"
-            >
-              <ChevronRight className="w-5 h-5 text-primary" />
-            </button>
+          {/* Slider - Below */}
+          <div className="relative min-w-0 w-full">
 
             {/* Cards */}
             <div
               ref={scrollRef}
+              data-collections-scroll
               onScroll={checkScroll}
               onMouseDown={handleMouseDown}
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseLeave}
-              className={`flex gap-4 md:gap-5 overflow-x-auto pb-2 scroll-smooth -mx-3 px-3 md:mx-0 md:px-0 ${
+              className={`flex items-stretch gap-4 md:gap-5 overflow-x-auto pb-2 scroll-smooth -mx-3 px-3 md:mx-0 md:px-0 ${
                 isDragging ? "cursor-grabbing select-none" : "cursor-grab"
               }`}
               style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
@@ -150,32 +187,41 @@ const ProductCollections = () => {
               {collections.map((collection, index) => (
                 <article
                   key={index}
-                  className="flex-shrink-0 w-[200px] md:w-[260px] group text-center md:text-left"
+                  className="flex-shrink-0 w-[200px] md:w-[260px] group text-center md:text-left flex flex-col"
                 >
-                  {/* Tall Image */}
-                  <div className="h-[260px] md:h-[320px] rounded-lg overflow-hidden mb-4">
+                  {/* Tall Image with Hover Effect */}
+                  <div className="h-[260px] md:h-[320px] rounded-lg overflow-hidden mb-4 relative">
                     <img
                       src={collection.image}
                       alt={`${collection.name} - Italian unbreakable tableware collection`}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      className="w-full h-full object-cover transition-opacity duration-500 group-hover:opacity-0 absolute inset-0"
+                      loading="lazy"
+                      draggable={false}
+                    />
+                    <img
+                      src={collection.imageHover}
+                      alt={`${collection.name} - Italian unbreakable tableware collection`}
+                      className="w-full h-full object-cover transition-opacity duration-500 opacity-0 group-hover:opacity-100 absolute inset-0"
                       loading="lazy"
                       draggable={false}
                     />
                   </div>
                   
                   {/* Content below image */}
-                  <h3 className="text-primary mb-2 tracking-wide font-medium font-sans leading-relaxed">
-                    {collection.name}
-                  </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-3 line-clamp-2">
-                    {collection.description}
-                  </p>
-                  <button
-                    onClick={scrollToForm}
-                    className="btn-dark w-full text-sm"
-                  >
-                    Get Offer
-                  </button>
+                  <div className="flex flex-col flex-grow">
+                    <h3 className="text-primary mb-2 tracking-wide font-medium font-serif leading-relaxed">
+                      {collection.name}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-3 flex-grow">
+                      {collection.description}
+                    </p>
+                    <button
+                      onClick={scrollToForm}
+                      className="btn-dark w-full text-[15px] mt-auto"
+                    >
+                      Get Offer
+                    </button>
+                  </div>
                 </article>
               ))}
             </div>

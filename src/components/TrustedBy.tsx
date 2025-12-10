@@ -1,15 +1,14 @@
 import { useEffect, useRef, useState } from "react";
 
 const brands = [
-  { name: "BITOSSI HOME", exclusive: true },
-  { name: "Broggi", exclusive: false },
-  { name: "COSINI", exclusive: true },
+  { logo: "/images/maison-revka-stacked.png", name: "Maison Revka" },
+  { logo: "/images/gigi_1_1.png", name: "Gigi" },
+  { logo: "/images/la_baia.png", name: "La Baia" },
 ];
 
 const TrustedBy = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
-  const [parallaxOffset, setParallaxOffset] = useState(0);
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
@@ -35,25 +34,6 @@ const TrustedBy = () => {
     return () => cancelAnimationFrame(animationId);
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const scrolled = window.scrollY;
-      const elementTop = rect.top + scrolled;
-      const relativeScroll = scrolled - elementTop + window.innerHeight;
-      
-      if (relativeScroll > 0 && rect.bottom > 0) {
-        setParallaxOffset(relativeScroll * 0.15);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   const duplicatedBrands = [...brands, ...brands, ...brands];
 
   return (
@@ -64,24 +44,25 @@ const TrustedBy = () => {
     >
       {/* Parallax Background */}
       <div 
-        className="absolute inset-0 bg-cover bg-center will-change-transform"
+        className="absolute inset-0"
         style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80')",
-          transform: `translateY(${parallaxOffset}px) scale(1.2)`,
-          top: "-10%",
-          height: "120%",
+          backgroundImage: "url('/images/photo_2025-08-13_150.jpeg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
         }}
       />
       
       {/* Overlay */}
       <div className="absolute inset-0 bg-primary/80" />
       
-      <div className="container mx-auto px-3 md:px-4 relative z-10">
+      <div className="container mx-auto max-w-[1440px] px-3 md:px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="font-serif text-primary-foreground mb-4 uppercase tracking-wide leading-relaxed">
-            Only Verified Premium<br />
-            Quality Brands
+            Trusted by<br />
+            Major Brands
           </h2>
           <p className="text-primary-foreground/80 max-w-xl mx-auto leading-relaxed">
             We know everything about the manufacturers we work with and guarantee 
@@ -98,16 +79,13 @@ const TrustedBy = () => {
           {duplicatedBrands.map((brand, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[180px] md:w-[280px] h-[90px] md:h-[120px] bg-primary-foreground/10 backdrop-blur-sm rounded-lg flex flex-col items-center justify-center border border-primary-foreground/20"
+              className="flex-shrink-0 w-[180px] md:w-[280px] h-[90px] md:h-[120px] flex items-center justify-center"
             >
-              <span className="text-primary-foreground text-base md:text-xl font-medium tracking-wide">
-                {brand.name}
-              </span>
-              {brand.exclusive && (
-                <span className="mt-2 px-3 py-0.5 bg-primary-foreground text-primary text-[10px] uppercase tracking-wider rounded-sm">
-                  Exclusive
-                </span>
-              )}
+              <img
+                src={brand.logo}
+                alt={brand.name}
+                className="max-w-full max-h-full object-contain filter brightness-0 invert opacity-90"
+              />
             </div>
           ))}
         </div>

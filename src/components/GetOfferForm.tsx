@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { ChevronDown } from "lucide-react";
 
@@ -17,9 +18,9 @@ interface CountryApiResponse {
 }
 
 const GetOfferForm = () => {
+  const navigate = useNavigate();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [parallaxOffset, setParallaxOffset] = useState(0);
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [countries, setCountries] = useState<CountryData[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
@@ -39,15 +40,48 @@ const GetOfferForm = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        const response = await fetch("https://office.ampriomilano.com/forms/country");
+        // First, try to detect country by IP using free API
+        let detectedCountryCode: string | null = null;
+        try {
+          const ipResponse = await fetch("https://ipapi.co/json/", {
+            method: "GET",
+            headers: {
+              "Accept": "application/json",
+            },
+          });
+          
+          if (ipResponse.ok) {
+            const ipData = await ipResponse.json();
+            if (ipData?.country_code) {
+              detectedCountryCode = ipData.country_code;
+            }
+          }
+        } catch (ipError) {
+          console.log("Could not detect country by IP, will use default");
+        }
+
+        // Then fetch countries list
+        const response = await fetch("https://office.ampriomilano.com/forms/country", {
+          method: "GET",
+          headers: {
+            "Accept": "application/json",
+          },
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
         const data: CountryApiResponse = await response.json();
         
-        if (data?.countries) {
+        if (data?.countries && Array.isArray(data.countries) && data.countries.length > 0) {
           setCountries(data.countries);
           
-          // Find detected country and set it as selected
-          if (data.detectedCountry) {
-            const detected = data.countries.find(c => c.code === data.detectedCountry);
+          // Use detected country from IP or from API response
+          const countryCodeToUse = detectedCountryCode || data.detectedCountry;
+          
+          if (countryCodeToUse) {
+            const detected = data.countries.find(c => c.code === countryCodeToUse);
             if (detected) {
               setSelectedCountry(detected);
             } else {
@@ -60,9 +94,11 @@ const GetOfferForm = () => {
             const uae = data.countries.find(c => c.code === "AE");
             setSelectedCountry(uae || data.countries[0]);
           }
+        } else {
+          throw new Error("Invalid countries data");
         }
       } catch (error) {
-        console.log("Could not fetch countries, using fallback");
+        console.error("Could not fetch countries:", error);
         // Fallback country
         setSelectedCountry({
           code: "AE",
@@ -72,6 +108,14 @@ const GetOfferForm = () => {
           placeholder: "00-000-0000",
           flag: "🇦🇪"
         });
+        setCountries([{
+          code: "AE",
+          name: "UAE",
+          dialCode: "+971",
+          format: "00-000-0000",
+          placeholder: "00-000-0000",
+          flag: "🇦🇪"
+        }]);
       } finally {
         setIsLoading(false);
       }
@@ -90,24 +134,6 @@ const GetOfferForm = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      const scrolled = window.scrollY;
-      const elementTop = rect.top + scrolled;
-      const relativeScroll = scrolled - elementTop + window.innerHeight;
-      
-      if (relativeScroll > 0 && rect.bottom > 0) {
-        setParallaxOffset(relativeScroll * 0.1);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll();
-    
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -132,11 +158,6 @@ const GetOfferForm = () => {
     
     await new Promise((resolve) => setTimeout(resolve, 1000));
     
-    toast({
-      title: "Request sent successfully!",
-      description: "Our team will contact you shortly.",
-    });
-    
     setFormData({
       name: "",
       phone: "",
@@ -146,26 +167,43 @@ const GetOfferForm = () => {
     });
     
     setIsSubmitting(false);
+    
+    // Redirect to thank you page
+    navigate("/thank-you");
   };
 
   return (
-    <section ref={sectionRef} id="get-offer" className="relative min-h-[600px] grid md:grid-cols-2 overflow-hidden scroll-section-content">
-      {/* Form Side */}
-      <div className="relative flex items-center justify-center p-6 md:p-12">
-        {/* Parallax Background */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center will-change-transform"
-          style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1200&q=80')",
-            transform: `translateY(${parallaxOffset}px) scale(1.2)`,
-            top: "-10%",
-            height: "120%",
-          }}
-        />
-        <div className="absolute inset-0 bg-primary/85 backdrop-blur-sm" />
-        
-        <div className="relative z-10 w-full max-w-md py-8 md:py-0">
-          <h2 className="font-serif text-primary-foreground mb-2 text-center uppercase tracking-wide leading-relaxed">
+    <section ref={sectionRef} id="get-offer" className="relative min-h-[600px] overflow-hidden scroll-section-content bg-black" style={{ scrollMarginTop: '65px' }}>
+      {/* Common Parallax Background for entire section - Fixed background */}
+      <div 
+        className="absolute inset-0"
+        style={{
+          backgroundImage: "url('/images/CHICZEN_bicchieri_10_form.jpg.webp')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundAttachment: 'fixed',
+        }}
+      />
+      
+      {/* Blur overlay with darkening - extends to cover form area + 20px */}
+      <div 
+        className="absolute inset-0 md:inset-y-0 md:left-0 z-[2] form-blur-overlay"
+        style={{
+          backgroundColor: 'hsla(220, 50%, 22%, 0.5)',
+          backdropFilter: 'blur(10px)',
+          WebkitBackdropFilter: 'blur(10px)',
+        }}
+      />
+      
+      <div className="container mx-auto max-w-[1440px] px-3 md:px-4 relative z-10">
+        <div className="grid md:grid-cols-[40%_60%] min-h-[600px] relative">
+          
+          {/* Form Side */}
+          <div className="relative flex items-center justify-center z-10 w-full h-full">
+            <div className="relative z-10 w-full flex flex-col justify-center py-8 md:py-12">
+              <div className="w-full max-w-[600px] mx-auto">
+            <h2 className="font-serif text-primary-foreground mb-2 text-center uppercase tracking-wide leading-relaxed">
             Get Your Exclusive Offer
           </h2>
           <p className="text-primary-foreground/80 text-center mb-8">
@@ -200,7 +238,7 @@ const GetOfferForm = () => {
                   ) : (
                     <span className="text-sm">Loading...</span>
                   )}
-                  <ChevronDown className="w-4 h-4 text-primary-foreground/60 ml-auto" />
+                  <ChevronDown className="w-4 h-4 text-primary-foreground/60 ml-auto" strokeWidth={1.2} />
                 </button>
                 
                 {isCountryOpen && countries.length > 0 && (
@@ -264,7 +302,7 @@ const GetOfferForm = () => {
               />
               <span className="text-primary-foreground/80 text-sm leading-tight">
                 I agree to the{" "}
-                <a href="#" className="underline hover:text-primary-foreground transition-colors">
+                <a href="/privacy-policy" className="underline hover:text-primary-foreground transition-colors">
                   Privacy Policy
                 </a>
               </span>
@@ -278,20 +316,14 @@ const GetOfferForm = () => {
               {isSubmitting ? "Sending..." : "Get Exclusive Offer"}
             </button>
           </form>
+              </div>
+            </div>
+          </div>
+          
+          {/* Image Side - empty, uses common background */}
+          <div className="hidden md:block relative overflow-hidden z-10">
+          </div>
         </div>
-      </div>
-      
-      {/* Image Side with Parallax */}
-      <div className="hidden md:block relative overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center will-change-transform"
-          style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=1200&q=80')",
-            transform: `translateY(${parallaxOffset}px) scale(1.1)`,
-            top: "-5%",
-            height: "110%",
-          }}
-        />
       </div>
     </section>
   );

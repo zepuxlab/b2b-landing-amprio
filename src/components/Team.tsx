@@ -1,6 +1,40 @@
 const Team = () => {
+  // Функция для плавной прокрутки с easing
+  const smoothScrollTo = (target: number, duration: number) => {
+    const start = window.pageYOffset;
+    const distance = target - start;
+    let startTime: number | null = null;
+
+    const easeInOutCubic = (t: number): number => {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    };
+
+    const animation = (currentTime: number) => {
+      if (startTime === null) startTime = currentTime;
+      const timeElapsed = currentTime - startTime;
+      const progress = Math.min(timeElapsed / duration, 1);
+      const ease = easeInOutCubic(progress);
+
+      window.scrollTo(0, start + distance * ease);
+
+      if (timeElapsed < duration) {
+        requestAnimationFrame(animation);
+      }
+    };
+
+    requestAnimationFrame(animation);
+  };
+
   const scrollToForm = () => {
-    document.getElementById("get-offer")?.scrollIntoView({ behavior: "smooth" });
+    const formElement = document.getElementById("get-offer");
+    if (formElement) {
+      const headerHeight = 65; // Высота header (h-18 = 72px + padding) + дополнительный offset
+      const elementPosition = formElement.getBoundingClientRect().top + window.pageYOffset;
+      const offsetPosition = elementPosition - headerHeight;
+      
+      // Плавная прокрутка с easing функцией
+      smoothScrollTo(offsetPosition, 400);
+    }
   };
 
   return (
@@ -12,6 +46,7 @@ const Team = () => {
           backgroundImage: `url("https://office.ampriomilano.com/cdn/images/AM_pattern.svg")`,
           backgroundSize: '200px 200px',
           backgroundRepeat: 'repeat',
+          backgroundAttachment: 'fixed',
           opacity: 0.03,
           maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 60%)',
           WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 60%)'
@@ -32,7 +67,7 @@ const Team = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-3 md:px-4 text-center relative z-10">
+      <div className="container mx-auto max-w-[1440px] px-3 md:px-4 text-center relative z-10">
         <h2 className="font-serif text-primary mb-12 uppercase tracking-wide leading-relaxed">
           Meet Our Team
         </h2>
@@ -41,15 +76,15 @@ const Team = () => {
           <div className="relative mb-6 inline-block">
             <div className="w-40 h-40 md:w-56 md:h-56 rounded-full border-4 border-primary overflow-hidden mx-auto">
               <img
-                src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80"
-                alt="Tatyana Ibragimova - Senior Sales Manager"
+                src="/images/Gemini_Generated_Ima.png"
+                alt="Ibragimova Tatyana - Senior Sales Manager"
                 className="w-full h-full object-cover"
               />
             </div>
           </div>
           
           <h3 className="text-xl md:text-2xl text-primary mb-2 font-medium font-sans">
-            Tatyana Ibragimova
+            Ibragimova Tatyana
           </h3>
           <p className="text-muted-foreground mb-4">
             Senior Sales Manager

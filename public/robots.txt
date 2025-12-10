@@ -12,3 +12,5 @@ Allow: /
 
 User-agent: *
 Allow: /
+
+Sitemap: https://office.ampriomilano.com/b2b/sitemap.xml

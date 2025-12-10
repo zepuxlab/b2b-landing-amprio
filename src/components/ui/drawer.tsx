@@ -17,30 +17,45 @@ const DrawerClose = DrawerPrimitive.Close;
 const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
->(({ className, ...props }, ref) => (
-  <DrawerPrimitive.Overlay ref={ref} className={cn("fixed inset-0 z-50 bg-black/80", className)} {...props} />
-));
+>(({ className, ...props }, ref) => {
+  const isTopMenu = className?.includes('!top-[64px]');
+  return (
+    <DrawerPrimitive.Overlay 
+      ref={ref} 
+      className={cn("fixed inset-0 z-50 bg-black/80", className)} 
+      style={isTopMenu ? { top: '64px' } : undefined}
+      {...props} 
+    />
+  );
+});
 DrawerOverlay.displayName = DrawerPrimitive.Overlay.displayName;
 
 const DrawerContent = React.forwardRef<
   React.ElementRef<typeof DrawerPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DrawerPortal>
-    <DrawerOverlay />
-    <DrawerPrimitive.Content
-      ref={ref}
-      className={cn(
-        "fixed inset-x-0 bottom-0 z-50 mt-24 flex h-auto flex-col rounded-t-[10px] border bg-background",
-        className,
-      )}
-      {...props}
-    >
-      <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />
-      {children}
-    </DrawerPrimitive.Content>
-  </DrawerPortal>
-));
+>(({ className, children, ...props }, ref) => {
+  const hideHandle = className?.includes('no-handle') || className?.includes('[&>div:first-child]:hidden');
+  const isTopDirection = className?.includes('!top-[') || className?.includes('top-[64px]');
+  const isLeftDirection = className?.includes('!left-0') || className?.includes('direction="left"');
+  return (
+    <DrawerPortal>
+      <DrawerOverlay className={cn("!z-[9999]", isTopDirection && "mobile-menu-overlay")} />
+      <DrawerPrimitive.Content
+        ref={ref}
+        className={cn(
+          "fixed z-50 flex h-auto flex-col border bg-background",
+          isLeftDirection ? "inset-y-0 left-0" : "inset-x-0 bottom-0 rounded-t-[10px]",
+          !isTopDirection && !isLeftDirection && "bottom-0",
+          className,
+        )}
+        {...props}
+      >
+        {!hideHandle && <div className="mx-auto mt-4 h-2 w-[100px] rounded-full bg-muted" />}
+        {children}
+      </DrawerPrimitive.Content>
+    </DrawerPortal>
+  );
+});
 DrawerContent.displayName = "DrawerContent";
 
 const DrawerHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (

@@ -113,6 +113,13 @@
 
   html {
     scroll-behavior: smooth;
+    scroll-padding-top: 65px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
@@ -164,6 +171,43 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-button);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-light::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    animation: shimmer-sweep 3s ease-in-out infinite;
+  }
+
+  .btn-light::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: var(--radius-button);
+    padding: 2px;
+    background: linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.4)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 1;
+    animation: glow-shimmer 2s ease-in-out infinite;
   }
 
   /* Primary colored button for light backgrounds */
@@ -210,6 +254,64 @@
     align-items: center;
     justify-content: center;
     border-radius: 50px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-partner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.3),
+      transparent
+    );
+    animation: shimmer-sweep 3s ease-in-out infinite;
+  }
+
+  .btn-partner::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50px;
+    padding: 2px;
+    background: linear-gradient(
+      45deg,
+      rgba(255, 255, 255, 0.4),
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.4)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 1;
+    animation: glow-shimmer 2s ease-in-out infinite;
+  }
+
+  @keyframes glow-shimmer {
+    0%, 100% {
+      opacity: 0.5;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes shimmer-sweep {
+    0% {
+      left: -100%;
+    }
+    50% {
+      left: 100%;
+    }
+    100% {
+      left: -100%;
+    }
   }
 
   /* Retail button */
@@ -293,5 +395,80 @@
 
   .animate-marquee {
     animation: marquee 30s linear infinite;
+  }
+
+  /* Fade in animation */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+    opacity: 0;
+  }
+
+  /* Mobile menu positioning fix */
+  .mobile-menu-top {
+    top: 64px !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    transform: none !important;
+  }
+
+  /* Mobile menu overlay positioning fix */
+  .mobile-menu-overlay {
+    top: 64px !important;
+  }
+
+  /* Mobile menu left side fix */
+  [data-vaul-drawer-direction="left"] {
+    z-index: 10000 !important;
+  }
+
+  [data-vaul-drawer-direction="left"] [data-vaul-overlay] {
+    z-index: 9999 !important;
+  }
+
+  /* Form blur overlay - extends to cover form + 20px */
+  .form-blur-overlay {
+    width: 100% !important;
+  }
+  
+  @media (min-width: 768px) {
+    .form-blur-overlay {
+      width: calc(40% + 60px) !important;
+    }
+  }
+  
+  @media (min-width: 1000px) {
+    .form-blur-overlay {
+      width: calc(40% + 50px) !important;
+    }
+  }
+  
+  @media (min-width: 1200px) {
+    .form-blur-overlay {
+      width: calc(38% + 45px) !important;
+    }
+  }
+  
+  @media (min-width: 1440px) {
+    .form-blur-overlay {
+      width: calc(38% + 50px) !important;
+    }
+  }
+
+  @media (min-width: 1600px) {
+    .form-blur-overlay {
+      width: calc(41% + 45px) !important;
+    }
   }
 }

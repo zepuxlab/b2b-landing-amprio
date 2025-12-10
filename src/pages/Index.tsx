@@ -7,13 +7,18 @@ import ProductCollections from "@/components/ProductCollections";
 import Team from "@/components/Team";
 import GetOfferForm from "@/components/GetOfferForm";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => {
   return (
     <>
       <Helmet>
-        <title>Amprio Milano | Italian Unbreakable Tableware for Hotels & Restaurants in Dubai</title>
-        <meta name="description" content="Premium Italian unbreakable glassware and tableware available in Dubai warehouse. Up to 60% off on stock liquidation. Perfect for hotels, restaurants & events." />
+        <title>Premium Italian Tableware - Dubai & UAE</title>
+        <meta name="description" content="Amprio Milano offers premium Italian tableware and décor, blending elegance, durability" />
+        <meta property="og:title" content="Premium Italian Tableware - Dubai & UAE" />
+        <meta property="og:description" content="Amprio Milano offers premium Italian tableware and décor, blending elegance, durability" />
+        <meta property="og:url" content="https://office.ampriomilano.com/b2b" />
+        <meta property="og:image" content="https://office.ampriomilano.com/b2b/images/Baci_Milano_chiczen_.jpg" />
       </Helmet>
       <Header />
       <main className="min-h-screen">
@@ -47,6 +52,8 @@ const Index = () => {
       <div className="relative z-[60]">
         <Footer />
       </div>
+      
+      <WhatsAppButton />
     </>
   );
 };
