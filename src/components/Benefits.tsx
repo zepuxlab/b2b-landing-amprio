@@ -1,0 +1,59 @@
+import { Warehouse, Gift, BadgeDollarSign, UtensilsCrossed, Truck, Sparkles } from "lucide-react";
+
+const benefits = [
+  {
+    icon: Warehouse,
+    title: "Available in stock in Dubai warehouse",
+  },
+  {
+    icon: Gift,
+    title: "Free try-before-you-buy",
+  },
+  {
+    icon: BadgeDollarSign,
+    title: "Best prices direct from the factory",
+  },
+  {
+    icon: UtensilsCrossed,
+    title: "Wide selection of tableware for restaurants & hotels",
+  },
+  {
+    icon: Truck,
+    title: "Next day sample delivery",
+  },
+  {
+    icon: Sparkles,
+    title: "Exclusive collections for standout venues & events",
+  },
+];
+
+const Benefits = () => {
+  return (
+    <section className="py-20 md:py-28 bg-background">
+      <div className="container mx-auto px-4">
+        <h2 className="section-title">
+          Why to choose Amprio Milano?
+        </h2>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+          {benefits.map((benefit, index) => (
+            <div
+              key={index}
+              className="flex items-center gap-4 p-4 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors group"
+              style={{ animationDelay: `${index * 0.1}s` }}
+            >
+              <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+                <benefit.icon className="w-6 h-6 text-primary" />
+              </div>
+              <p className="text-foreground text-lg font-medium">
+                {benefit.title}
+              </p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Benefits;
