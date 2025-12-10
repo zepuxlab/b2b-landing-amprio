@@ -23,7 +23,7 @@ const Footer = () => {
           {/* Left - Logo & Description */}
           <div className="text-left">
             <img src={logoSvg} alt="Amprio Milano" className="h-20 w-auto mb-4 brightness-0 invert" />
-            <p className="text-primary-foreground/70 text-sm leading-relaxed max-w-[280px]">
+            <p className="text-primary-foreground/70 text-base leading-relaxed max-w-[300px]">
               Premium Italian tableware and décor for hotels, restaurants, and hospitality venues.
             </p>
           </div>
@@ -33,45 +33,45 @@ const Footer = () => {
             <h4 className="text-primary-foreground mb-4 font-medium font-sans text-sm uppercase tracking-wider">
               Contact Us
             </h4>
-            <div className="space-y-2 mb-6">
+            <div className="space-y-3 mb-6">
               <a
                 href="mailto:info@amprio.ae"
-                className="flex items-center gap-2 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
+                className="flex items-center gap-2 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-base"
               >
-                <Mail className="w-4 h-4" />
+                <Mail className="w-5 h-5" />
                 info@amprio.ae
               </a>
               <a
                 href="tel:+971501234567"
-                className="flex items-center gap-2 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
+                className="flex items-center gap-2 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-base"
               >
-                <Phone className="w-4 h-4" />
+                <Phone className="w-5 h-5" />
                 +971 50 123 4567
               </a>
             </div>
             
             {/* Social Icons */}
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <a
                 href="#"
-                className="w-9 h-9 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
+                className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
                 aria-label="Instagram"
               >
-                <Instagram className="w-4 h-4" />
+                <Instagram className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="w-9 h-9 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
+                className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
                 aria-label="Facebook"
               >
-                <Facebook className="w-4 h-4" />
+                <Facebook className="w-5 h-5" />
               </a>
               <a
                 href="#"
-                className="w-9 h-9 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
+                className="w-10 h-10 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
                 aria-label="LinkedIn"
               >
-                <Linkedin className="w-4 h-4" />
+                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </div>

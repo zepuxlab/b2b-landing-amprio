@@ -4,7 +4,7 @@ const Team = () => {
   };
 
   return (
-    <section className="py-12 md:py-24 bg-background bg-noise-light relative overflow-hidden">
+    <section className="py-12 md:py-24 bg-background bg-noise-light relative overflow-hidden shadow-[inset_0_60px_60px_-30px_rgba(0,0,0,0.08)]">
       {/* Grid pattern with top-to-bottom gradient */}
       <div 
         className="absolute inset-0 pointer-events-none"
