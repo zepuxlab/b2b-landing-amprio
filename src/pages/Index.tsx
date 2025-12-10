@@ -17,18 +17,36 @@ const Index = () => {
       </Helmet>
       <Header />
       <main className="min-h-screen">
-        <HeroSlider />
-        <TrustedBy />
-        <section aria-label="Benefits">
+        {/* Hero - base layer */}
+        <div className="relative z-0">
+          <HeroSlider />
+        </div>
+        
+        {/* Scrolling sections that overlay hero */}
+        <div className="relative z-10">
+          <TrustedBy />
+        </div>
+        
+        <div className="relative z-20">
           <Benefits />
-        </section>
-        <ProductCollections />
-        <section aria-label="Our Team">
+        </div>
+        
+        <div className="relative z-30">
+          <ProductCollections />
+        </div>
+        
+        <div className="relative z-40">
           <Team />
-        </section>
-        <GetOfferForm />
+        </div>
+        
+        <div className="relative z-50">
+          <GetOfferForm />
+        </div>
       </main>
-      <Footer />
+      
+      <div className="relative z-[60]">
+        <Footer />
+      </div>
     </>
   );
 };

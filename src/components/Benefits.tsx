@@ -29,7 +29,7 @@ const benefits = [
 
 const Benefits = () => {
   return (
-    <section className="py-20 md:py-28 bg-background">
+    <section className="py-16 md:py-24 bg-background bg-pattern-light scroll-section-content">
       <div className="container mx-auto px-3 md:px-4">
         <h2 className="font-serif text-primary text-center mb-12 uppercase tracking-wide">
           Why Choose Amprio Milano?
