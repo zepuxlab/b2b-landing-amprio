@@ -16,7 +16,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 bg-primary bg-pattern h-14 md:h-16">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-primary bg-noise h-14 md:h-16">
         <div className="container mx-auto h-full flex items-center justify-between px-3 md:px-6">
           {/* Mobile: Burger Left */}
           <button
@@ -30,8 +30,7 @@ const Header = () => {
           {/* Desktop: Retail Button */}
           <a 
             href="#" 
-            className="hidden md:inline-flex items-center justify-center px-5 border border-primary-foreground/40 text-primary-foreground text-sm hover:bg-primary-foreground/10 transition-colors h-12"
-            style={{ borderRadius: "3px" }}
+            className="btn-retail hidden md:inline-flex"
           >
             Go to Retail
           </a>
