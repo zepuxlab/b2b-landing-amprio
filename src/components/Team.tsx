@@ -4,8 +4,22 @@ const Team = () => {
   };
 
   return (
-    <section className="py-20 md:py-28 bg-background">
-      <div className="container mx-auto px-3 md:px-4 text-center">
+    <section className="py-16 md:py-24 bg-background bg-pattern-light relative overflow-hidden">
+      {/* Background marquee text */}
+      <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none select-none">
+        <div className="animate-marquee whitespace-nowrap flex">
+          {[...Array(6)].map((_, i) => (
+            <span
+              key={i}
+              className="text-[120px] md:text-[200px] font-serif text-primary/[0.03] uppercase tracking-wider mx-8"
+            >
+              AMPRIO MILANO
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="container mx-auto px-3 md:px-4 text-center relative z-10">
         <h2 className="font-serif text-primary mb-12 uppercase tracking-wide">
           Meet Our Team
         </h2>
@@ -35,7 +49,7 @@ const Team = () => {
           
           <button
             onClick={scrollToForm}
-            className="btn-primary"
+            className="btn-dark"
           >
             Contact Manager
           </button>

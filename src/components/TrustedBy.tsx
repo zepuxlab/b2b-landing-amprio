@@ -60,7 +60,7 @@ const TrustedBy = () => {
     <section 
       ref={sectionRef}
       id="brands" 
-      className="py-24 md:py-32 relative overflow-hidden"
+      className="py-16 md:py-24 relative overflow-hidden scroll-section-content"
     >
       {/* Parallax Background */}
       <div 

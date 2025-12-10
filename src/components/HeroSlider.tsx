@@ -88,24 +88,24 @@ const HeroSlider = () => {
         </p>
         <button
           onClick={scrollToForm}
-          className="btn-primary text-lg md:text-xl animate-fade-in"
+          className="btn-light text-lg md:text-xl animate-fade-in"
           style={{ animationDelay: "0.4s" }}
         >
           Get Exclusive Offer
         </button>
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation Arrows - Hidden on mobile */}
       <button
         onClick={prevSlide}
-        className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
+        className="hidden md:flex absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
         aria-label="Previous slide"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
+        className="hidden md:flex absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
         aria-label="Next slide"
       >
         <ChevronRight className="w-6 h-6" />

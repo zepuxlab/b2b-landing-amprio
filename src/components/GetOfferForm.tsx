@@ -73,7 +73,7 @@ const GetOfferForm = () => {
   };
 
   return (
-    <section ref={sectionRef} id="get-offer" className="relative min-h-[600px] grid md:grid-cols-2 overflow-hidden">
+    <section ref={sectionRef} id="get-offer" className="relative min-h-[600px] grid md:grid-cols-2 overflow-hidden scroll-section-content">
       {/* Form Side */}
       <div className="relative flex items-center justify-center p-6 md:p-12">
         {/* Parallax Background */}
@@ -88,7 +88,7 @@ const GetOfferForm = () => {
         />
         <div className="absolute inset-0 bg-primary/85 backdrop-blur-sm" />
         
-        <div className="relative z-10 w-full max-w-md">
+        <div className="relative z-10 w-full max-w-md py-8 md:py-0">
           <h2 className="font-serif text-primary-foreground mb-2 text-center uppercase tracking-wide">
             Get Your Exclusive Offer
           </h2>
@@ -155,7 +155,7 @@ const GetOfferForm = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
+              className="btn-light w-full disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? "Sending..." : "Get Exclusive Offer"}
             </button>
