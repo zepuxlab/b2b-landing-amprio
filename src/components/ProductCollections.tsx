@@ -69,7 +69,7 @@ const ProductCollections = () => {
   };
 
   return (
-    <section id="collections" className="py-16 md:py-24 bg-background bg-pattern-light scroll-section-content">
+    <section id="collections" className="py-16 md:py-24 bg-background bg-noise-light scroll-section-content">
       <div className="container mx-auto px-3 md:px-4">
         <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
           {/* Left side - Title & Description */}

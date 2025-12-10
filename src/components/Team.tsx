@@ -4,7 +4,7 @@ const Team = () => {
   };
 
   return (
-    <section className="py-16 md:py-24 bg-background bg-pattern-light relative overflow-hidden">
+    <section className="py-16 md:py-24 bg-background bg-noise-light relative overflow-hidden">
       {/* Background marquee text */}
       <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none select-none">
         <div className="animate-marquee whitespace-nowrap flex">

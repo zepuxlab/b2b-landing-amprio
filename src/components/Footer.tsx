@@ -2,7 +2,7 @@ import { Phone, Mail, Instagram, Facebook, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary bg-pattern py-12 md:py-16 scroll-section-content">
+    <footer className="bg-primary bg-noise py-12 md:py-16 scroll-section-content">
       <div className="container mx-auto px-3 md:px-4">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12">
           {/* Contact */}
