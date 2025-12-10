@@ -79,7 +79,7 @@ const TrustedBy = () => {
       <div className="container mx-auto px-3 md:px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="font-serif text-primary-foreground mb-4 uppercase tracking-wide">
+          <h2 className="font-serif text-primary-foreground mb-4 uppercase tracking-wide leading-relaxed">
             Only Verified Premium<br />
             Quality Brands
           </h2>

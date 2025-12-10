@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Phone, MessageCircle, Menu, X } from "lucide-react";
+import logoSvg from "@/assets/AM_logo_b2b.svg";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -27,22 +28,17 @@ const Header = () => {
             <Menu className="w-6 h-6" />
           </button>
 
-          {/* Desktop: Retail Button */}
+          {/* Desktop: Retail Link */}
           <a 
             href="#" 
-            className="btn-retail hidden md:inline-flex"
+            className="hidden md:inline-flex text-primary-foreground/80 hover:text-primary-foreground transition-colors text-[15px] underline underline-offset-4"
           >
             Go to Retail
           </a>
 
-          {/* Center - Logo (Right on mobile) */}
+          {/* Center - Logo */}
           <div className="flex flex-col items-center md:absolute md:left-1/2 md:-translate-x-1/2">
-            <span className="text-primary-foreground font-serif text-xl md:text-2xl tracking-wide">
-              AMPRIO MILANO
-            </span>
-            <span className="hidden md:block text-primary-foreground/60 text-[9px] tracking-[0.25em] uppercase font-sans">
-              Gourmet Tableware & Décor
-            </span>
+            <img src={logoSvg} alt="Amprio Milano" className="h-6 md:h-7" />
           </div>
 
           {/* Right - Contact (Desktop) */}
@@ -50,7 +46,7 @@ const Header = () => {
             {/* Phone */}
             <a
               href="tel:+971501234567"
-              className="flex items-center gap-1.5 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
+              className="flex items-center gap-1.5 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-[15px]"
             >
               <Phone className="w-4 h-4" />
               <span>+971 50 123 4567</span>
@@ -69,7 +65,7 @@ const Header = () => {
             {/* CTA Button */}
             <button
               onClick={scrollToForm}
-              className="btn-partner"
+              className="btn-partner text-[15px]"
             >
               Become Partner
             </button>
@@ -89,7 +85,7 @@ const Header = () => {
         <div className="flex flex-col h-full">
           {/* Menu Header */}
           <div className="flex items-center justify-between p-4 border-b border-primary-foreground/10">
-            <span className="text-primary-foreground font-serif text-xl">AMPRIO MILANO</span>
+            <img src={logoSvg} alt="Amprio Milano" className="h-6" />
             <button
               onClick={() => setIsMenuOpen(false)}
               className="p-2 text-primary-foreground"
@@ -103,19 +99,19 @@ const Header = () => {
           <nav className="flex-1 flex flex-col items-center justify-center gap-6 p-6">
             <button
               onClick={() => scrollToSection("collections")}
-              className="text-primary-foreground text-xl font-serif tracking-wide hover:opacity-80 transition-opacity"
+              className="text-primary-foreground text-[15px] font-sans tracking-wide hover:opacity-80 transition-opacity"
             >
               Collections
             </button>
             <button
               onClick={() => scrollToSection("brands")}
-              className="text-primary-foreground text-xl font-serif tracking-wide hover:opacity-80 transition-opacity"
+              className="text-primary-foreground text-[15px] font-sans tracking-wide hover:opacity-80 transition-opacity"
             >
               Brands
             </button>
             <a
               href="tel:+971501234567"
-              className="flex items-center gap-2 text-primary-foreground/80 text-lg"
+              className="flex items-center gap-2 text-primary-foreground/80 text-[15px]"
             >
               <Phone className="w-5 h-5" />
               +971 50 123 4567
@@ -124,7 +120,7 @@ const Header = () => {
               href="https://wa.me/971501234567"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center gap-2 text-primary-foreground/80 text-lg"
+              className="flex items-center gap-2 text-primary-foreground/80 text-[15px]"
             >
               <MessageCircle className="w-5 h-5" />
               WhatsApp
@@ -135,13 +131,13 @@ const Header = () => {
           <div className="p-6 space-y-4 border-t border-primary-foreground/10">
             <button
               onClick={scrollToForm}
-              className="btn-partner w-full"
+              className="btn-partner w-full text-[15px]"
             >
               Become Partner
             </button>
             <a
               href="#"
-              className="btn-outline-light w-full text-center"
+              className="block text-center text-primary-foreground/80 hover:text-primary-foreground transition-colors text-[15px] underline underline-offset-4"
             >
               Go to Retail
             </a>

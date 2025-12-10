@@ -38,6 +38,9 @@ const ProductCollections = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   const scrollToForm = () => {
     document.getElementById("get-offer")?.scrollIntoView({ behavior: "smooth" });
@@ -68,13 +71,38 @@ const ProductCollections = () => {
     }
   };
 
+  // Mouse drag handlers
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - startX) * 1.5;
+    scrollRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    checkScroll();
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+  };
+
   return (
     <section id="collections" className="py-16 md:py-24 bg-background bg-noise-light scroll-section-content">
       <div className="container mx-auto px-3 md:px-4">
         <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
           {/* Left side - Title & Description */}
-          <div className="flex-shrink-0 md:w-[280px] flex flex-col">
-            <h2 className="font-serif text-primary mb-4 uppercase tracking-wide">
+          <div className="flex-shrink-0 md:w-[280px] flex flex-col text-center md:text-left">
+            <h2 className="font-serif text-primary mb-4 uppercase tracking-wide leading-relaxed">
               Collections<br />In Stock
             </h2>
             <p className="text-muted-foreground leading-relaxed">
@@ -110,13 +138,19 @@ const ProductCollections = () => {
             <div
               ref={scrollRef}
               onScroll={checkScroll}
-              className="flex gap-4 md:gap-5 overflow-x-auto pb-2 scroll-smooth -mx-3 px-3 md:mx-0 md:px-0"
+              onMouseDown={handleMouseDown}
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseLeave}
+              className={`flex gap-4 md:gap-5 overflow-x-auto pb-2 scroll-smooth -mx-3 px-3 md:mx-0 md:px-0 ${
+                isDragging ? "cursor-grabbing select-none" : "cursor-grab"
+              }`}
               style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
             >
               {collections.map((collection, index) => (
                 <article
                   key={index}
-                  className="flex-shrink-0 w-[200px] md:w-[260px] group"
+                  className="flex-shrink-0 w-[200px] md:w-[260px] group text-center md:text-left"
                 >
                   {/* Tall Image */}
                   <div className="h-[260px] md:h-[320px] rounded-lg overflow-hidden mb-4">
@@ -125,11 +159,12 @@ const ProductCollections = () => {
                       alt={`${collection.name} - Italian unbreakable tableware collection`}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                       loading="lazy"
+                      draggable={false}
                     />
                   </div>
                   
                   {/* Content below image */}
-                  <h3 className="text-primary mb-2 tracking-wide font-medium font-sans">
+                  <h3 className="text-primary mb-2 tracking-wide font-medium font-sans leading-relaxed">
                     {collection.name}
                   </h3>
                   <p className="text-muted-foreground text-sm leading-relaxed mb-3 line-clamp-2">
