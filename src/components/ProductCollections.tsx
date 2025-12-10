@@ -65,82 +65,79 @@ const ProductCollections = () => {
   return (
     <section id="collections" className="py-16 md:py-24 bg-background">
       <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-10 gap-6">
-          <div>
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12">
+          {/* Left side - Title & Description */}
+          <div className="flex-shrink-0 md:w-[280px] flex flex-col justify-center">
             <h2 className="font-serif text-2xl md:text-3xl text-primary mb-4 uppercase tracking-wide">
-              Collections In Stock
+              Collections<br />In Stock
             </h2>
-            <p className="text-muted-foreground max-w-xl text-sm leading-relaxed">
+            <p className="text-muted-foreground text-sm leading-relaxed">
               Italian unbreakable tableware available in Dubai warehouse. 
               Next day sample delivery.
             </p>
           </div>
-          <a href="#" className="text-primary underline hover:no-underline text-sm whitespace-nowrap">
-            View all collections
-          </a>
-        </div>
 
-        {/* Slider */}
-        <div className="relative">
-          {/* Navigation */}
-          <button
-            onClick={() => scroll("left")}
-            className={`absolute -left-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
-              canScrollLeft ? "opacity-100 hover:bg-muted" : "opacity-40"
-            }`}
-            aria-label="Scroll left"
-          >
-            <ChevronLeft className="w-5 h-5 text-primary" />
-          </button>
+          {/* Right side - Slider */}
+          <div className="flex-1 relative">
+            {/* Navigation */}
+            <button
+              onClick={() => scroll("left")}
+              className={`absolute -left-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
+                canScrollLeft ? "opacity-100 hover:bg-muted" : "opacity-40"
+              }`}
+              aria-label="Scroll left"
+            >
+              <ChevronLeft className="w-5 h-5 text-primary" />
+            </button>
 
-          <button
-            onClick={() => scroll("right")}
-            className={`absolute -right-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
-              canScrollRight ? "opacity-100 hover:bg-muted" : "opacity-40"
-            }`}
-            aria-label="Scroll right"
-          >
-            <ChevronRight className="w-5 h-5 text-primary" />
-          </button>
+            <button
+              onClick={() => scroll("right")}
+              className={`absolute -right-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
+                canScrollRight ? "opacity-100 hover:bg-muted" : "opacity-40"
+              }`}
+              aria-label="Scroll right"
+            >
+              <ChevronRight className="w-5 h-5 text-primary" />
+            </button>
 
-          {/* Cards */}
-          <div
-            ref={scrollRef}
-            onScroll={checkScroll}
-            className="flex gap-5 overflow-x-auto pb-2"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {collections.map((collection, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 w-[220px] md:w-[260px] group"
-              >
-                {/* Tall Image */}
-                <div className="h-[280px] md:h-[320px] rounded-lg overflow-hidden mb-4">
-                  <img
-                    src={collection.image}
-                    alt={`${collection.name} collection`}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
-                
-                {/* Content below image */}
-                <h3 className="text-primary text-base mb-2 tracking-wide font-medium">
-                  {collection.name}
-                </h3>
-                <p className="text-muted-foreground text-xs leading-relaxed mb-3 line-clamp-2">
-                  {collection.description}
-                </p>
-                <button
-                  onClick={scrollToForm}
-                  className="btn-primary w-full text-xs py-2"
+            {/* Cards */}
+            <div
+              ref={scrollRef}
+              onScroll={checkScroll}
+              className="flex gap-5 overflow-x-auto pb-2"
+              style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+            >
+              {collections.map((collection, index) => (
+                <div
+                  key={index}
+                  className="flex-shrink-0 w-[220px] md:w-[260px] group"
                 >
-                  Get Offer
-                </button>
-              </div>
-            ))}
+                  {/* Tall Image */}
+                  <div className="h-[280px] md:h-[320px] rounded-lg overflow-hidden mb-4">
+                    <img
+                      src={collection.image}
+                      alt={`${collection.name} collection`}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
+                  
+                  {/* Content below image */}
+                  <h3 className="text-primary text-base mb-2 tracking-wide font-medium">
+                    {collection.name}
+                  </h3>
+                  <p className="text-muted-foreground text-xs leading-relaxed mb-3 line-clamp-2">
+                    {collection.description}
+                  </p>
+                  <button
+                    onClick={scrollToForm}
+                    className="btn-primary w-full text-xs py-2"
+                  >
+                    Get Offer
+                  </button>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

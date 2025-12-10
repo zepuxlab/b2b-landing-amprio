@@ -1,105 +1,90 @@
-import { useRef, useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useRef } from "react";
 
 const brands = [
   { name: "BITOSSI HOME", exclusive: true },
   { name: "Broggi", exclusive: false },
-  { name: "chilewich", exclusive: false },
   { name: "COSINI", exclusive: true },
-  { name: "Cutipol", exclusive: false },
-  { name: "ZAFFERANO", exclusive: false },
 ];
 
 const TrustedBy = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const [canScrollLeft, setCanScrollLeft] = useState(false);
-  const [canScrollRight, setCanScrollRight] = useState(true);
 
-  const checkScroll = () => {
-    if (scrollRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
-    }
-  };
+  useEffect(() => {
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
 
-  const scroll = (direction: "left" | "right") => {
-    if (scrollRef.current) {
-      const scrollAmount = 280;
-      scrollRef.current.scrollBy({
-        left: direction === "left" ? -scrollAmount : scrollAmount,
-        behavior: "smooth",
-      });
-      setTimeout(checkScroll, 300);
-    }
-  };
+    let animationId: number;
+    let scrollPosition = 0;
+    const scrollSpeed = 0.5;
+
+    const animate = () => {
+      scrollPosition += scrollSpeed;
+      
+      // Reset when reaching halfway (since we duplicate the brands)
+      if (scrollPosition >= scrollContainer.scrollWidth / 2) {
+        scrollPosition = 0;
+      }
+      
+      scrollContainer.scrollLeft = scrollPosition;
+      animationId = requestAnimationFrame(animate);
+    };
+
+    animationId = requestAnimationFrame(animate);
+
+    return () => cancelAnimationFrame(animationId);
+  }, []);
+
+  // Duplicate brands for infinite scroll effect
+  const duplicatedBrands = [...brands, ...brands, ...brands];
 
   return (
-    <section id="brands" className="py-16 md:py-24 bg-muted">
-      <div className="container mx-auto px-4">
+    <section 
+      id="brands" 
+      className="py-24 md:py-32 relative overflow-hidden"
+      style={{
+        backgroundImage: "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundAttachment: "fixed",
+      }}
+    >
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-primary/80" />
+      
+      <div className="container mx-auto px-4 relative z-10">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-10 gap-6">
-          <div>
-            <h2 className="font-serif text-2xl md:text-3xl text-primary mb-4 uppercase tracking-wide">
-              Only Verified Premium<br />
-              Quality Brands
-            </h2>
-            <p className="text-muted-foreground max-w-xl text-sm leading-relaxed">
-              We know everything about the manufacturers we work with and guarantee 
-              impeccable quality and functionality of products.
-            </p>
-          </div>
-          <a href="#" className="text-primary underline hover:no-underline text-sm whitespace-nowrap">
-            View all brands
-          </a>
+        <div className="text-center mb-12">
+          <h2 className="font-serif text-2xl md:text-3xl text-primary-foreground mb-4 uppercase tracking-wide">
+            Only Verified Premium<br />
+            Quality Brands
+          </h2>
+          <p className="text-primary-foreground/80 max-w-xl mx-auto text-sm leading-relaxed">
+            We know everything about the manufacturers we work with and guarantee 
+            impeccable quality and functionality of products.
+          </p>
         </div>
 
-        {/* Slider */}
-        <div className="relative">
-          {/* Navigation */}
-          <button
-            onClick={() => scroll("left")}
-            className={`absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
-              canScrollLeft ? "opacity-100 hover:bg-muted" : "opacity-40"
-            }`}
-            aria-label="Scroll left"
-          >
-            <ChevronLeft className="w-5 h-5 text-primary" />
-          </button>
-
-          <button
-            onClick={() => scroll("right")}
-            className={`absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
-              canScrollRight ? "opacity-100 hover:bg-muted" : "opacity-40"
-            }`}
-            aria-label="Scroll right"
-          >
-            <ChevronRight className="w-5 h-5 text-primary" />
-          </button>
-
-          {/* Cards */}
-          <div
-            ref={scrollRef}
-            onScroll={checkScroll}
-            className="flex gap-4 overflow-x-auto pb-2"
-            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          >
-            {brands.map((brand, index) => (
-              <div
-                key={index}
-                className="flex-shrink-0 w-[200px] md:w-[240px] h-[120px] bg-background rounded-lg flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow"
-              >
-                <span className="text-primary text-lg md:text-xl font-medium tracking-wide">
-                  {brand.name}
+        {/* Infinite scroll brands */}
+        <div
+          ref={scrollRef}
+          className="flex gap-6 overflow-x-hidden"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {duplicatedBrands.map((brand, index) => (
+            <div
+              key={index}
+              className="flex-shrink-0 w-[220px] md:w-[280px] h-[100px] md:h-[120px] bg-primary-foreground/10 backdrop-blur-sm rounded-lg flex flex-col items-center justify-center border border-primary-foreground/20"
+            >
+              <span className="text-primary-foreground text-lg md:text-xl font-medium tracking-wide">
+                {brand.name}
+              </span>
+              {brand.exclusive && (
+                <span className="mt-2 px-3 py-0.5 bg-primary-foreground text-primary text-[10px] uppercase tracking-wider rounded-sm">
+                  Exclusive
                 </span>
-                {brand.exclusive && (
-                  <span className="mt-2 px-3 py-0.5 bg-primary text-primary-foreground text-[10px] uppercase tracking-wider rounded-sm">
-                    Exclusive
-                  </span>
-                )}
-              </div>
-            ))}
-          </div>
+              )}
+            </div>
+          ))}
         </div>
       </div>
     </section>
