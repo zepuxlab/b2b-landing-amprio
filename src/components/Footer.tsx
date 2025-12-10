@@ -2,17 +2,17 @@ import { Phone, Mail, Instagram, Facebook, Linkedin } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary bg-pattern py-16">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+    <footer className="bg-primary bg-pattern py-12 md:py-16">
+      <div className="container mx-auto px-3 md:px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-12">
           {/* Contact */}
           <div className="text-center md:text-left">
-            <h4 className="text-lg text-primary-foreground mb-4 font-medium">
+            <h4 className="text-primary-foreground mb-4 font-medium font-sans">
               Contact Us
             </h4>
             <a
               href="tel:+971501234567"
-              className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
+              className="flex items-center justify-center md:justify-start gap-2 text-primary-foreground/80 hover:text-primary-foreground transition-colors"
             >
               <Phone className="w-4 h-4" />
               +971 50 123 4567
@@ -21,7 +21,7 @@ const Footer = () => {
           
           {/* Social */}
           <div className="text-center">
-            <h4 className="text-lg text-primary-foreground mb-4 font-medium">
+            <h4 className="text-primary-foreground mb-4 font-medium font-sans">
               Follow Us
             </h4>
             <div className="flex items-center justify-center gap-4">
@@ -51,7 +51,7 @@ const Footer = () => {
           
           {/* B2C Link */}
           <div className="text-center md:text-right">
-            <h4 className="text-lg text-primary-foreground mb-4 font-medium">
+            <h4 className="text-primary-foreground mb-4 font-medium font-sans">
               For Retail Customers
             </h4>
             <a
@@ -67,9 +67,9 @@ const Footer = () => {
         <div className="text-center mb-8">
           <a
             href="mailto:INFO@AMPRIO.AE"
-            className="flex items-center justify-center gap-3 text-primary-foreground text-2xl md:text-4xl font-serif hover:opacity-80 transition-opacity"
+            className="flex items-center justify-center gap-3 text-primary-foreground text-xl md:text-4xl font-serif hover:opacity-80 transition-opacity"
           >
-            <Mail className="w-8 h-8" />
+            <Mail className="w-6 h-6 md:w-8 md:h-8" />
             INFO@AMPRIO.AE
           </a>
         </div>

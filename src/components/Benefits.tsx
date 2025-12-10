@@ -30,12 +30,12 @@ const benefits = [
 const Benefits = () => {
   return (
     <section className="py-20 md:py-28 bg-background">
-      <div className="container mx-auto px-4">
+      <div className="container mx-auto px-3 md:px-4">
         <h2 className="font-serif text-primary text-center mb-12 uppercase tracking-wide">
           Why Choose Amprio Milano?
         </h2>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 max-w-4xl mx-auto">
           {benefits.map((benefit, index) => (
             <div
               key={index}
@@ -44,7 +44,7 @@ const Benefits = () => {
               <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
                 <benefit.icon className="w-6 h-6 text-primary" />
               </div>
-              <p className="text-foreground text-base">
+              <p className="text-foreground">
                 {benefit.title}
               </p>
             </div>
