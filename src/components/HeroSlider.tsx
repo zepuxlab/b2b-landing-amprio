@@ -63,10 +63,10 @@ const HeroSlider = () => {
 
       {/* Content */}
       <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4">
-        <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-primary-foreground mb-4 animate-fade-in max-w-5xl leading-tight">
-          Unbreakable glassware stock
+        <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-primary-foreground mb-4 animate-fade-in max-w-5xl leading-tight uppercase tracking-wide">
+          Unbreakable Glassware Stock
           <br />
-          <span className="text-accent">Liquidation Sale −60%</span>
+          <span className="text-accent">Liquidation Sale -60%</span>
         </h1>
         <p className="text-primary-foreground/90 text-lg md:text-xl mb-8 animate-fade-in max-w-2xl" style={{ animationDelay: "0.2s" }}>
           Italian unbreakable tableware available in Dubai

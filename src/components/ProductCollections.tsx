@@ -69,15 +69,15 @@ const ProductCollections = () => {
         <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-10 gap-6">
           <div>
             <h2 className="font-serif text-2xl md:text-3xl text-primary mb-4 uppercase tracking-wide">
-              Коллекции в наличии
+              Collections In Stock
             </h2>
             <p className="text-muted-foreground max-w-xl text-sm leading-relaxed">
-              Итальянская небьющаяся посуда доступна на складе в Дубае. 
-              Доставка образцов на следующий день.
+              Italian unbreakable tableware available in Dubai warehouse. 
+              Next day sample delivery.
             </p>
           </div>
           <a href="#" className="text-primary underline hover:no-underline text-sm whitespace-nowrap">
-            Смотреть все коллекции
+            View all collections
           </a>
         </div>
 
@@ -127,7 +127,7 @@ const ProductCollections = () => {
                 </div>
                 
                 {/* Content below image */}
-                <h3 className="font-semibold text-primary text-base mb-2 tracking-wide">
+                <h3 className="text-primary text-base mb-2 tracking-wide font-medium">
                   {collection.name}
                 </h3>
                 <p className="text-muted-foreground text-xs leading-relaxed mb-3 line-clamp-2">

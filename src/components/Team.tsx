@@ -6,8 +6,8 @@ const Team = () => {
   return (
     <section className="py-20 md:py-28 bg-background">
       <div className="container mx-auto px-4 text-center">
-        <h2 className="section-title">
-          Meet our team
+        <h2 className="font-serif text-2xl md:text-3xl text-primary mb-12 uppercase tracking-wide">
+          Meet Our Team
         </h2>
         
         <div className="max-w-md mx-auto">
@@ -21,10 +21,10 @@ const Team = () => {
             </div>
           </div>
           
-          <h3 className="font-serif text-2xl md:text-3xl text-primary mb-2">
-            Ibragimova Tatyana
+          <h3 className="text-xl md:text-2xl text-primary mb-2 font-medium">
+            Tatyana Ibragimova
           </h3>
-          <p className="text-muted-foreground text-lg mb-4">
+          <p className="text-muted-foreground text-base mb-4">
             Senior Sales Manager
           </p>
           

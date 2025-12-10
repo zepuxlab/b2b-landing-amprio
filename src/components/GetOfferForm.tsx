@@ -33,7 +33,6 @@ const GetOfferForm = () => {
 
     setIsSubmitting(true);
     
-    // Simulate form submission
     await new Promise((resolve) => setTimeout(resolve, 1000));
     
     toast({
@@ -66,11 +65,11 @@ const GetOfferForm = () => {
         <div className="absolute inset-0 bg-primary/85 backdrop-blur-sm" />
         
         <div className="relative z-10 w-full max-w-md">
-          <h2 className="font-serif text-3xl md:text-4xl text-primary-foreground mb-2 text-center">
+          <h2 className="font-serif text-3xl md:text-4xl text-primary-foreground mb-2 text-center uppercase tracking-wide">
             Get Your Exclusive Offer
           </h2>
-          <p className="text-primary-foreground/80 text-center mb-8">
-            Fill in the form and we'll contact you within 24 hours
+          <p className="text-primary-foreground/80 text-center mb-8 text-sm">
+            Fill in the form and we will contact you within 24 hours
           </p>
           
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -81,7 +80,7 @@ const GetOfferForm = () => {
               value={formData.name}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 rounded-md bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/50 transition-colors"
+              className="w-full px-4 py-3 rounded-lg bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/50 transition-colors text-sm"
             />
             
             <input
@@ -91,7 +90,7 @@ const GetOfferForm = () => {
               value={formData.phone}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 rounded-md bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/50 transition-colors"
+              className="w-full px-4 py-3 rounded-lg bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/50 transition-colors text-sm"
             />
             
             <input
@@ -100,7 +99,7 @@ const GetOfferForm = () => {
               placeholder="Company / Restaurant Name"
               value={formData.company}
               onChange={handleChange}
-              className="w-full px-4 py-3 rounded-md bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/50 transition-colors"
+              className="w-full px-4 py-3 rounded-lg bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/50 transition-colors text-sm"
             />
             
             <input
@@ -110,7 +109,7 @@ const GetOfferForm = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 rounded-md bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/50 transition-colors"
+              className="w-full px-4 py-3 rounded-lg bg-primary-foreground/10 border border-primary-foreground/20 text-primary-foreground placeholder:text-primary-foreground/50 focus:outline-none focus:border-primary-foreground/50 transition-colors text-sm"
             />
             
             <label className="flex items-start gap-3 cursor-pointer">
@@ -121,7 +120,7 @@ const GetOfferForm = () => {
                 onChange={handleChange}
                 className="mt-1 w-4 h-4 rounded border-primary-foreground/30 bg-transparent text-accent focus:ring-accent"
               />
-              <span className="text-primary-foreground/80 text-sm">
+              <span className="text-primary-foreground/80 text-xs">
                 I agree to the{" "}
                 <a href="#" className="underline hover:text-primary-foreground transition-colors">
                   Privacy Policy

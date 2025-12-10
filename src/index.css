@@ -1,4 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap');
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('https://office.ampriomilano.com/cdn/fonts/CabinetGrotesk-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SangBleu Sunrise';
+  src: url('https://office.ampriomilano.com/cdn/fonts/SangBleuSunrise.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
 
 @tailwind base;
 @tailwind components;
@@ -44,8 +58,8 @@
     --brand-light: 196 20% 97%;
 
     /* Typography */
-    --font-serif: 'Playfair Display', Georgia, serif;
-    --font-sans: 'Inter', system-ui, sans-serif;
+    --font-serif: 'SangBleu Sunrise', Georgia, serif;
+    --font-sans: 'Cabinet Grotesk', system-ui, sans-serif;
 
     /* Shadows */
     --shadow-card: 0 4px 20px -4px hsl(var(--brand-teal) / 0.1);

@@ -3,10 +3,10 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const brands = [
   { name: "BITOSSI HOME", exclusive: true },
-  { name: "Broggi", exclusive: false, script: true },
+  { name: "Broggi", exclusive: false },
   { name: "chilewich", exclusive: false },
   { name: "COSINI", exclusive: true },
-  { name: "Cutipol", exclusive: false, script: true },
+  { name: "Cutipol", exclusive: false },
   { name: "ZAFFERANO", exclusive: false },
 ];
 
@@ -41,16 +41,16 @@ const TrustedBy = () => {
         <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-10 gap-6">
           <div>
             <h2 className="font-serif text-2xl md:text-3xl text-primary mb-4 uppercase tracking-wide">
-              Только проверенные бренды<br />
-              премиального качества
+              Only Verified Premium<br />
+              Quality Brands
             </h2>
             <p className="text-muted-foreground max-w-xl text-sm leading-relaxed">
-              Мы знаем всё о производителях, с которыми сотрудничаем, и гарантируем 
-              безукоризненное качество и функциональность продукции.
+              We know everything about the manufacturers we work with and guarantee 
+              impeccable quality and functionality of products.
             </p>
           </div>
           <a href="#" className="text-primary underline hover:no-underline text-sm whitespace-nowrap">
-            Смотреть все бренды
+            View all brands
           </a>
         </div>
 
@@ -89,7 +89,7 @@ const TrustedBy = () => {
                 key={index}
                 className="flex-shrink-0 w-[200px] md:w-[240px] h-[120px] bg-background rounded-lg flex flex-col items-center justify-center shadow-sm hover:shadow-md transition-shadow"
               >
-                <span className={`text-primary text-lg md:text-xl ${brand.script ? 'font-serif italic' : 'font-semibold tracking-wide'}`}>
+                <span className="text-primary text-lg md:text-xl font-medium tracking-wide">
                   {brand.name}
                 </span>
                 {brand.exclusive && (
