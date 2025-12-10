@@ -118,28 +118,55 @@
   body {
     @apply bg-background text-foreground font-sans antialiased;
     font-family: var(--font-sans);
+    font-size: 16px;
+  }
+
+  @media (min-width: 768px) {
+    body {
+      font-size: 16.5px;
+    }
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-serif);
   }
+
+  h2, h3, h4, h5, h6 {
+    font-size: 24px;
+  }
+
+  @media (min-width: 768px) {
+    h2, h3, h4, h5, h6 {
+      font-size: 26px;
+    }
+  }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-accent text-accent-foreground px-8 py-3 text-lg font-medium 
+    @apply bg-accent text-accent-foreground px-8 font-medium 
            transition-all duration-300 hover:opacity-90 hover:shadow-lg;
+    height: 48px;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: var(--radius-button);
   }
 
   .btn-outline {
-    @apply border-2 border-primary-foreground text-primary-foreground px-6 py-2
+    @apply border-2 border-primary-foreground text-primary-foreground px-6
            transition-all duration-300 hover:bg-primary-foreground hover:text-primary;
+    height: 48px;
+    min-height: 48px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border-radius: var(--radius-button);
   }
 
   .section-title {
-    @apply text-4xl md:text-5xl font-serif text-primary text-center mb-12;
+    @apply font-serif text-primary text-center mb-12 uppercase tracking-wide;
   }
 
   .card-product {
