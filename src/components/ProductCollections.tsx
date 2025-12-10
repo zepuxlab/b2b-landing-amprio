@@ -86,7 +86,7 @@ const ProductCollections = () => {
           {/* Navigation */}
           <button
             onClick={() => scroll("left")}
-            className={`absolute -left-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
+            className={`absolute -left-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
               canScrollLeft ? "opacity-100 hover:bg-muted" : "opacity-40"
             }`}
             aria-label="Scroll left"
@@ -96,7 +96,7 @@ const ProductCollections = () => {
 
           <button
             onClick={() => scroll("right")}
-            className={`absolute -right-5 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
+            className={`absolute -right-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
               canScrollRight ? "opacity-100 hover:bg-muted" : "opacity-40"
             }`}
             aria-label="Scroll right"
@@ -108,39 +108,37 @@ const ProductCollections = () => {
           <div
             ref={scrollRef}
             onScroll={checkScroll}
-            className="flex gap-4 overflow-x-auto pb-2"
+            className="flex gap-5 overflow-x-auto pb-2"
             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
           >
             {collections.map((collection, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 w-[240px] md:w-[280px] bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow"
+                className="flex-shrink-0 w-[220px] md:w-[260px] group"
               >
-                {/* Image */}
-                <div className="h-[160px] overflow-hidden">
+                {/* Tall Image */}
+                <div className="h-[280px] md:h-[320px] rounded-lg overflow-hidden mb-4">
                   <img
                     src={collection.image}
                     alt={`${collection.name} collection`}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     loading="lazy"
                   />
                 </div>
                 
-                {/* Content */}
-                <div className="p-4">
-                  <h3 className="font-semibold text-primary text-base mb-2 tracking-wide">
-                    {collection.name}
-                  </h3>
-                  <p className="text-muted-foreground text-xs leading-relaxed mb-3 line-clamp-2">
-                    {collection.description}
-                  </p>
-                  <button
-                    onClick={scrollToForm}
-                    className="btn-primary w-full text-xs py-2"
-                  >
-                    Get Offer
-                  </button>
-                </div>
+                {/* Content below image */}
+                <h3 className="font-semibold text-primary text-base mb-2 tracking-wide">
+                  {collection.name}
+                </h3>
+                <p className="text-muted-foreground text-xs leading-relaxed mb-3 line-clamp-2">
+                  {collection.description}
+                </p>
+                <button
+                  onClick={scrollToForm}
+                  className="btn-primary w-full text-xs py-2"
+                >
+                  Get Offer
+                </button>
               </div>
             ))}
           </div>
