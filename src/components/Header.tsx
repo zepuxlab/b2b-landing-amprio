@@ -47,7 +47,7 @@ const Header = () => {
           {/* CTA Button */}
           <button
             onClick={scrollToForm}
-            className="btn-outline text-xs md:text-sm px-4 py-1.5"
+            className="btn-outline text-xs md:text-sm px-4"
           >
             Become Partner
           </button>
