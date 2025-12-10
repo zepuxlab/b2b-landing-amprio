@@ -21,29 +21,29 @@ const Footer = () => {
       <div className="container mx-auto px-3 md:px-4 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 mb-8">
           {/* Left - Logo & Description */}
-          <div className="text-center md:text-left">
-            <img src={logoSvg} alt="Amprio Milano" className="h-6 mb-4 mx-auto md:mx-0 brightness-0 invert" />
-            <p className="text-primary-foreground/70 text-sm leading-relaxed max-w-[280px] mx-auto md:mx-0">
+          <div className="text-left">
+            <img src={logoSvg} alt="Amprio Milano" className="h-20 w-auto mb-4 brightness-0 invert" />
+            <p className="text-primary-foreground/70 text-sm leading-relaxed max-w-[280px]">
               Premium Italian tableware and décor for hotels, restaurants, and hospitality venues.
             </p>
           </div>
           
           {/* Center - Contact Us */}
-          <div className="text-center">
+          <div className="text-left">
             <h4 className="text-primary-foreground mb-4 font-medium font-sans text-sm uppercase tracking-wider">
               Contact Us
             </h4>
             <div className="space-y-2 mb-6">
               <a
                 href="mailto:info@amprio.ae"
-                className="flex items-center justify-center gap-2 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
+                className="flex items-center gap-2 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
               >
                 <Mail className="w-4 h-4" />
                 info@amprio.ae
               </a>
               <a
                 href="tel:+971501234567"
-                className="flex items-center justify-center gap-2 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
+                className="flex items-center gap-2 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
               >
                 <Phone className="w-4 h-4" />
                 +971 50 123 4567
@@ -51,7 +51,7 @@ const Footer = () => {
             </div>
             
             {/* Social Icons */}
-            <div className="flex items-center justify-center gap-3">
+            <div className="flex items-center gap-3">
               <a
                 href="#"
                 className="w-9 h-9 rounded-full bg-primary-foreground/10 flex items-center justify-center text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
@@ -77,7 +77,7 @@ const Footer = () => {
           </div>
           
           {/* Right - For Retail */}
-          <div className="text-center md:text-right">
+          <div className="text-left md:text-right">
             <h4 className="text-primary-foreground mb-4 font-medium font-sans text-sm uppercase tracking-wider">
               For Retail
             </h4>

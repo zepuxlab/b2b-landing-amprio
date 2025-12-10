@@ -5,6 +5,19 @@ const Team = () => {
 
   return (
     <section className="py-12 md:py-24 bg-background bg-noise-light relative overflow-hidden">
+      {/* Grid pattern with top-to-bottom gradient */}
+      <div 
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `url("https://office.ampriomilano.com/cdn/images/AM_pattern.svg")`,
+          backgroundSize: '200px 200px',
+          backgroundRepeat: 'repeat',
+          opacity: 0.03,
+          maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 60%)',
+          WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 60%)'
+        }}
+      />
+      
       {/* Background marquee text */}
       <div className="absolute inset-0 flex items-center overflow-hidden pointer-events-none select-none">
         <div className="animate-marquee whitespace-nowrap flex">
