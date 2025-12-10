@@ -1,4 +1,4 @@
-import { Phone, MessageCircle } from "lucide-react";
+import { Phone, Mail, ChevronDown } from "lucide-react";
 
 const Header = () => {
   const scrollToForm = () => {
@@ -6,45 +6,64 @@ const Header = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-primary h-16 md:h-[72px]">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-primary h-14 md:h-16">
       <div className="container mx-auto h-full flex items-center justify-between px-4 md:px-6">
-        {/* Logo */}
-        <div className="flex flex-col">
+        {/* Left - Menu */}
+        <nav className="hidden md:flex items-center gap-1">
+          <a href="#" className="px-3 py-1.5 border border-primary-foreground/40 text-primary-foreground text-sm rounded-sm hover:bg-primary-foreground/10 transition-colors">
+            Розница
+          </a>
+          <a href="#" className="flex items-center gap-1 px-3 py-1.5 text-primary-foreground/80 text-sm hover:text-primary-foreground transition-colors">
+            Направления
+            <ChevronDown className="w-4 h-4" />
+          </a>
+          <a href="#collections" className="px-3 py-1.5 text-primary-foreground/80 text-sm hover:text-primary-foreground transition-colors">
+            Проекты
+          </a>
+          <a href="#brands" className="px-3 py-1.5 text-primary-foreground/80 text-sm hover:text-primary-foreground transition-colors">
+            Бренды
+          </a>
+          <a href="#get-offer" className="px-3 py-1.5 text-primary-foreground/80 text-sm hover:text-primary-foreground transition-colors">
+            Контакты
+          </a>
+        </nav>
+
+        {/* Center - Logo */}
+        <div className="flex flex-col items-center md:absolute md:left-1/2 md:-translate-x-1/2">
           <span className="text-primary-foreground font-serif text-xl md:text-2xl font-semibold tracking-wide">
             AMPRIO MILANO
           </span>
-          <span className="text-primary-foreground/70 text-[10px] md:text-xs tracking-[0.2em] uppercase">
+          <span className="hidden md:block text-primary-foreground/60 text-[9px] tracking-[0.25em] uppercase">
             Gourmet Tableware & Décor
           </span>
         </div>
 
-        {/* Right side - Contact & CTA */}
-        <div className="flex items-center gap-2 md:gap-6">
-          {/* Phone - hidden on very small screens */}
+        {/* Right - Contact & CTA */}
+        <div className="flex items-center gap-3 md:gap-5">
+          {/* Phone */}
           <a
             href="tel:+971501234567"
-            className="hidden sm:flex items-center gap-2 text-primary-foreground hover:text-primary-foreground/80 transition-colors"
+            className="hidden lg:flex items-center gap-1.5 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
           >
-            <Phone className="w-4 h-4" />
-            <span className="hidden md:inline text-sm">+971 50 123 4567</span>
+            <Phone className="w-3.5 h-3.5" />
+            +971 50 123 4567
           </a>
 
-          {/* WhatsApp */}
+          {/* Email */}
           <a
-            href="https://wa.me/971501234567"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-2 text-primary-foreground hover:text-primary-foreground/80 transition-colors"
+            href="mailto:info@amprio.ae"
+            className="hidden xl:flex items-center gap-1.5 text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm"
           >
-            <MessageCircle className="w-5 h-5" />
+            <Mail className="w-3.5 h-3.5" />
+            info@amprio.ae
           </a>
 
           {/* CTA Button */}
           <button
             onClick={scrollToForm}
-            className="btn-outline text-sm md:text-base px-4 md:px-6 py-2"
+            className="btn-outline text-xs md:text-sm px-4 py-1.5"
           >
-            Request presentation
+            Стать партнёром
           </button>
         </div>
       </div>
