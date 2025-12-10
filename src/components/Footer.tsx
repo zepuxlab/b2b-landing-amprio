@@ -76,26 +76,17 @@ const Footer = () => {
             </div>
           </div>
           
-          {/* Right - For Retail */}
-          <div className="text-left md:text-right">
+          {/* Right - Partnership */}
+          <div className="text-left">
             <h4 className="text-primary-foreground mb-4 font-medium font-sans text-sm uppercase tracking-wider">
-              For Retail
+              Partnership
             </h4>
-            <a
-              href="#"
-              className="text-primary-foreground/80 hover:text-primary-foreground transition-colors text-sm underline underline-offset-4"
+            <button
+              onClick={scrollToForm}
+              className="btn-partner text-[15px]"
             >
-              Go to Retail Store
-            </a>
-            
-            <div className="mt-6">
-              <button
-                onClick={scrollToForm}
-                className="btn-partner text-[15px]"
-              >
-                Become Partner
-              </button>
-            </div>
+              Become Partner
+            </button>
           </div>
         </div>
         
