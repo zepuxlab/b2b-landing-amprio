@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const collections = [
@@ -51,9 +51,15 @@ const ProductCollections = () => {
     }
   };
 
+  useEffect(() => {
+    checkScroll();
+    window.addEventListener("resize", checkScroll);
+    return () => window.removeEventListener("resize", checkScroll);
+  }, []);
+
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
-      const scrollAmount = 300;
+      const scrollAmount = 280;
       scrollRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
         behavior: "smooth",
@@ -64,8 +70,8 @@ const ProductCollections = () => {
 
   return (
     <section id="collections" className="py-16 md:py-24 bg-background">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start">
+      <div className="container mx-auto px-3 md:px-4">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
           {/* Left side - Title & Description */}
           <div className="flex-shrink-0 md:w-[280px] flex flex-col">
             <h2 className="font-serif text-primary mb-4 uppercase tracking-wide">
@@ -78,11 +84,11 @@ const ProductCollections = () => {
           </div>
 
           {/* Right side - Slider */}
-          <div className="flex-1 relative min-w-0">
-            {/* Navigation */}
+          <div className="flex-1 relative min-w-0 w-full">
+            {/* Navigation - Hidden on mobile */}
             <button
               onClick={() => scroll("left")}
-              className={`absolute -left-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
+              className={`hidden md:flex absolute -left-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border items-center justify-center shadow-sm transition-all ${
                 canScrollLeft ? "opacity-100 hover:bg-muted" : "opacity-40 pointer-events-none"
               }`}
               aria-label="Scroll left"
@@ -92,7 +98,7 @@ const ProductCollections = () => {
 
             <button
               onClick={() => scroll("right")}
-              className={`absolute -right-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border flex items-center justify-center shadow-sm transition-all ${
+              className={`hidden md:flex absolute -right-5 top-[140px] z-10 w-10 h-10 rounded-lg bg-background border border-border items-center justify-center shadow-sm transition-all ${
                 canScrollRight ? "opacity-100 hover:bg-muted" : "opacity-40 pointer-events-none"
               }`}
               aria-label="Scroll right"
@@ -104,16 +110,16 @@ const ProductCollections = () => {
             <div
               ref={scrollRef}
               onScroll={checkScroll}
-              className="flex gap-5 overflow-x-auto pb-2 scroll-smooth"
+              className="flex gap-4 md:gap-5 overflow-x-auto pb-2 scroll-smooth -mx-3 px-3 md:mx-0 md:px-0"
               style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
             >
               {collections.map((collection, index) => (
                 <article
                   key={index}
-                  className="flex-shrink-0 w-[220px] md:w-[260px] group"
+                  className="flex-shrink-0 w-[200px] md:w-[260px] group"
                 >
                   {/* Tall Image */}
-                  <div className="h-[280px] md:h-[320px] rounded-lg overflow-hidden mb-4">
+                  <div className="h-[260px] md:h-[320px] rounded-lg overflow-hidden mb-4">
                     <img
                       src={collection.image}
                       alt={`${collection.name} - Italian unbreakable tableware collection`}

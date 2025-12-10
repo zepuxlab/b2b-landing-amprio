@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
@@ -19,6 +19,8 @@ const slides = [
 const HeroSlider = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [parallaxOffset, setParallaxOffset] = useState(0);
+  const sectionRef = useRef<HTMLElement>(null);
 
   const nextSlide = useCallback(() => {
     if (isAnimating) return;
@@ -39,13 +41,23 @@ const HeroSlider = () => {
     return () => clearInterval(interval);
   }, [nextSlide]);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrolled = window.scrollY;
+      setParallaxOffset(scrolled * 0.4);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const scrollToForm = () => {
     document.getElementById("get-offer")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section className="relative h-screen w-full overflow-hidden">
-      {/* Slides */}
+    <section ref={sectionRef} className="relative h-screen w-full overflow-hidden">
+      {/* Slides with Parallax */}
       {slides.map((slide, index) => (
         <div
           key={index}
@@ -54,15 +66,18 @@ const HeroSlider = () => {
           }`}
         >
           <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${slide.image})` }}
+            className="absolute inset-0 bg-cover bg-center will-change-transform"
+            style={{ 
+              backgroundImage: `url(${slide.image})`,
+              transform: `translateY(${parallaxOffset}px) scale(1.1)`,
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/60 via-primary/40 to-primary/70" />
         </div>
       ))}
 
       {/* Content */}
-      <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-4">
+      <div className="relative z-20 h-full flex flex-col items-center justify-center text-center px-3 md:px-4">
         <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-primary-foreground mb-4 animate-fade-in max-w-5xl leading-tight uppercase tracking-wide">
           Unbreakable Glassware Stock
           <br />
@@ -83,14 +98,14 @@ const HeroSlider = () => {
       {/* Navigation Arrows */}
       <button
         onClick={prevSlide}
-        className="absolute left-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
+        className="absolute left-3 md:left-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
         aria-label="Previous slide"
       >
         <ChevronLeft className="w-6 h-6" />
       </button>
       <button
         onClick={nextSlide}
-        className="absolute right-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
+        className="absolute right-3 md:right-4 top-1/2 -translate-y-1/2 z-30 p-2 rounded-full bg-primary-foreground/10 backdrop-blur-sm text-primary-foreground hover:bg-primary-foreground/20 transition-colors"
         aria-label="Next slide"
       >
         <ChevronRight className="w-6 h-6" />
@@ -117,7 +132,7 @@ const HeroSlider = () => {
         href="https://wa.me/971501234567"
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-xl hover:scale-110 transition-transform animate-float"
+        className="fixed bottom-6 right-3 md:right-6 z-50 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-xl hover:scale-110 transition-transform animate-float"
         aria-label="Contact on WhatsApp"
       >
         <svg viewBox="0 0 24 24" className="w-7 h-7 fill-white">

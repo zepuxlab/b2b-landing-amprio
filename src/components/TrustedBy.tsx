@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const brands = [
   { name: "BITOSSI HOME", exclusive: true },
@@ -8,6 +8,8 @@ const brands = [
 
 const TrustedBy = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const [parallaxOffset, setParallaxOffset] = useState(0);
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
@@ -20,7 +22,6 @@ const TrustedBy = () => {
     const animate = () => {
       scrollPosition += scrollSpeed;
       
-      // Reset when reaching halfway (since we duplicate the brands)
       if (scrollPosition >= scrollContainer.scrollWidth / 2) {
         scrollPosition = 0;
       }
@@ -34,31 +35,55 @@ const TrustedBy = () => {
     return () => cancelAnimationFrame(animationId);
   }, []);
 
-  // Duplicate brands for infinite scroll effect
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!sectionRef.current) return;
+      const rect = sectionRef.current.getBoundingClientRect();
+      const scrolled = window.scrollY;
+      const elementTop = rect.top + scrolled;
+      const relativeScroll = scrolled - elementTop + window.innerHeight;
+      
+      if (relativeScroll > 0 && rect.bottom > 0) {
+        setParallaxOffset(relativeScroll * 0.15);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const duplicatedBrands = [...brands, ...brands, ...brands];
 
   return (
     <section 
+      ref={sectionRef}
       id="brands" 
       className="py-24 md:py-32 relative overflow-hidden"
-      style={{
-        backgroundImage: "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80')",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-        backgroundAttachment: "fixed",
-      }}
     >
+      {/* Parallax Background */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center will-change-transform"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=80')",
+          transform: `translateY(${parallaxOffset}px) scale(1.2)`,
+          top: "-10%",
+          height: "120%",
+        }}
+      />
+      
       {/* Overlay */}
       <div className="absolute inset-0 bg-primary/80" />
       
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-3 md:px-4 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="font-serif text-2xl md:text-3xl text-primary-foreground mb-4 uppercase tracking-wide">
+          <h2 className="font-serif text-primary-foreground mb-4 uppercase tracking-wide">
             Only Verified Premium<br />
             Quality Brands
           </h2>
-          <p className="text-primary-foreground/80 max-w-xl mx-auto text-sm leading-relaxed">
+          <p className="text-primary-foreground/80 max-w-xl mx-auto leading-relaxed">
             We know everything about the manufacturers we work with and guarantee 
             impeccable quality and functionality of products.
           </p>
@@ -67,15 +92,15 @@ const TrustedBy = () => {
         {/* Infinite scroll brands */}
         <div
           ref={scrollRef}
-          className="flex gap-6 overflow-x-hidden"
+          className="flex gap-4 md:gap-6 overflow-x-hidden"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {duplicatedBrands.map((brand, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[220px] md:w-[280px] h-[100px] md:h-[120px] bg-primary-foreground/10 backdrop-blur-sm rounded-lg flex flex-col items-center justify-center border border-primary-foreground/20"
+              className="flex-shrink-0 w-[180px] md:w-[280px] h-[90px] md:h-[120px] bg-primary-foreground/10 backdrop-blur-sm rounded-lg flex flex-col items-center justify-center border border-primary-foreground/20"
             >
-              <span className="text-primary-foreground text-lg md:text-xl font-medium tracking-wide">
+              <span className="text-primary-foreground text-base md:text-xl font-medium tracking-wide">
                 {brand.name}
               </span>
               {brand.exclusive && (
