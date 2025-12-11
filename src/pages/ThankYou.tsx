@@ -40,9 +40,23 @@ const ThankYou = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in" style={{ animationDelay: "0.6s" }}>
               <button
                 onClick={() => navigate("/")}
-                className="btn-primary text-base px-8 py-3"
+                className="relative text-base px-8 py-3 text-primary-foreground font-medium transition-all duration-300 hover:opacity-90 hover:shadow-lg overflow-hidden rounded-lg"
+                style={{
+                  height: '48px',
+                  minHeight: '48px',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundImage: 'url(/b2b/images/CHICZEN-BACI-MILANO.jpg.webp)',
+                  backgroundSize: 'cover',
+                  backgroundPosition: 'center',
+                }}
               >
-                Back to Home
+                <div 
+                  className="absolute inset-0"
+                  style={{ backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.50), rgba(0,0,0,0.50))" }}
+                />
+                <span className="relative z-10">Back to Home</span>
               </button>
               <button
                 onClick={() => navigate("/")}
