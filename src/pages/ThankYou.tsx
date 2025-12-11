@@ -51,7 +51,7 @@ const ThankYou = () => {
             <div className="flex justify-center items-center animate-fade-in" style={{ animationDelay: "0.6s" }}>
               <button
                 onClick={() => navigate("/")}
-                className="bg-primary text-primary-foreground px-8 py-3 font-medium transition-all duration-300 hover:bg-primary/90 hover:shadow-lg rounded-lg"
+                className="bg-primary-foreground text-primary px-8 py-3 font-medium transition-all duration-300 hover:bg-primary-foreground/90 hover:shadow-lg rounded-lg"
                 style={{
                   height: '48px',
                   minHeight: '48px',
