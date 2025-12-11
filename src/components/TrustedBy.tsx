@@ -40,7 +40,7 @@ const TrustedBy = () => {
     <section 
       ref={sectionRef}
       id="brands" 
-      className="py-16 md:py-24 relative overflow-hidden scroll-section-content"
+      className="py-20 md:py-32 relative overflow-hidden scroll-section-content"
     >
       {/* Parallax Background */}
       <div 
@@ -57,7 +57,7 @@ const TrustedBy = () => {
       {/* Overlay */}
       <div className="absolute inset-0 bg-primary/80" />
       
-      <div className="container mx-auto max-w-[1440px] px-3 md:px-4 relative z-10">
+      <div className="container mx-auto max-w-[1440px] px-4 md:px-6 relative z-10">
         {/* Header */}
         <div className="text-center mb-12">
           <h2 className="font-serif text-primary-foreground mb-4 uppercase tracking-wide leading-relaxed">
@@ -75,7 +75,7 @@ const TrustedBy = () => {
           {duplicatedBrands.map((brand, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-[180px] md:w-[280px] h-[90px] md:h-[120px] flex items-center justify-center"
+              className="flex-shrink-0 w-[220px] md:w-[320px] h-[110px] md:h-[140px] flex items-center justify-center"
             >
               <img
                 src={brand.logo}
