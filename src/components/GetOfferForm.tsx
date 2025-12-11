@@ -61,26 +61,59 @@ const GetOfferForm = () => {
         
         setCountries(data.countries);
         
-        // Try to detect country by IP (optional, non-blocking)
+        // Try to detect country by IP using multiple services with fallback
         let detectedCountryCode: string | null = null;
+        
+        // Try service 1: api.country.is (simple and fast)
         try {
-          const ipResponse = await fetch("https://ipapi.co/json/", {
+          const response1 = await fetch("https://api.country.is", {
             method: "GET",
-            headers: {
-              "Accept": "application/json",
-            },
+            headers: { "Accept": "application/json" },
           });
-          
-          if (ipResponse.ok) {
-            const ipData = await ipResponse.json();
-            if (ipData?.country_code) {
-              // Normalize country code to uppercase
-              detectedCountryCode = ipData.country_code.toUpperCase();
+          if (response1.ok) {
+            const data1 = await response1.json();
+            if (data1?.country) {
+              detectedCountryCode = data1.country.toUpperCase();
             }
           }
-        } catch (ipError) {
-          // Silently fail - IP detection is optional
-          console.log("IP detection failed, using API defaultCountry");
+        } catch (e) {
+          // Try next service
+        }
+        
+        // Try service 2: ipinfo.io (if first failed)
+        if (!detectedCountryCode) {
+          try {
+            const response2 = await fetch("https://ipinfo.io/json", {
+              method: "GET",
+              headers: { "Accept": "application/json" },
+            });
+            if (response2.ok) {
+              const data2 = await response2.json();
+              if (data2?.country) {
+                detectedCountryCode = data2.country.toUpperCase();
+              }
+            }
+          } catch (e) {
+            // Try next service
+          }
+        }
+        
+        // Try service 3: ipapi.co (fallback)
+        if (!detectedCountryCode) {
+          try {
+            const response3 = await fetch("https://ipapi.co/json/", {
+              method: "GET",
+              headers: { "Accept": "application/json" },
+            });
+            if (response3.ok) {
+              const data3 = await response3.json();
+              if (data3?.country_code) {
+                detectedCountryCode = data3.country_code.toUpperCase();
+              }
+            }
+          } catch (e) {
+            // All IP detection services failed, will use API defaultCountry
+          }
         }
         
         // Use detected country from IP, or from API response defaultCountry, or fallback to AE
