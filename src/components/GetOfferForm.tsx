@@ -41,7 +41,27 @@ const GetOfferForm = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       try {
-        // First, try to detect country by IP using free API
+        // First, fetch countries list (this is the primary source)
+        const response = await fetch(API_CONFIG.COUNTRIES_URL, {
+          method: "GET",
+          headers: {
+            "Accept": "application/json",
+          },
+        });
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        
+        const data: CountryApiResponse = await response.json();
+        
+        if (!data?.countries || !Array.isArray(data.countries) || data.countries.length === 0) {
+          throw new Error("Invalid countries data");
+        }
+        
+        setCountries(data.countries);
+        
+        // Try to detect country by IP (optional, non-blocking)
         let detectedCountryCode: string | null = null;
         try {
           const ipResponse = await fetch("https://ipapi.co/json/", {
@@ -59,42 +79,23 @@ const GetOfferForm = () => {
             }
           }
         } catch (ipError) {
-          console.log("Could not detect country by IP, will use default");
-        }
-
-        // Then fetch countries list
-        const response = await fetch(API_CONFIG.COUNTRIES_URL, {
-          method: "GET",
-          headers: {
-            "Accept": "application/json",
-          },
-        });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+          // Silently fail - IP detection is optional
+          console.log("IP detection failed, using API defaultCountry");
         }
         
-        const data: CountryApiResponse = await response.json();
+        // Use detected country from IP, or from API response defaultCountry, or fallback to AE
+        const countryCodeToUse = detectedCountryCode || data.defaultCountry || "AE";
         
-        if (data?.countries && Array.isArray(data.countries) && data.countries.length > 0) {
-          setCountries(data.countries);
-          
-          // Use detected country from IP or from API response defaultCountry
-          const countryCodeToUse = detectedCountryCode || data.defaultCountry || "AE";
-          
-          // Normalize country code to uppercase for comparison
-          const normalizedCode = countryCodeToUse.toUpperCase();
-          const detected = data.countries.find(c => c.code.toUpperCase() === normalizedCode);
-          
-          if (detected) {
-            setSelectedCountry(detected);
-          } else {
-            // Default to UAE if detected country not in list
-            const uae = data.countries.find(c => c.code === "AE");
-            setSelectedCountry(uae || data.countries[0]);
-          }
+        // Normalize country code to uppercase for comparison
+        const normalizedCode = countryCodeToUse.toUpperCase();
+        const detected = data.countries.find(c => c.code.toUpperCase() === normalizedCode);
+        
+        if (detected) {
+          setSelectedCountry(detected);
         } else {
-          throw new Error("Invalid countries data");
+          // Default to UAE if detected country not in list
+          const uae = data.countries.find(c => c.code === "AE");
+          setSelectedCountry(uae || data.countries[0]);
         }
       } catch (error) {
         console.error("Could not fetch countries:", error);
