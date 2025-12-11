@@ -198,10 +198,13 @@ const GetOfferForm = () => {
     setIsSubmitting(true);
     
     try {
+      // Prepare phone number with country code prefix
+      const phoneWithCode = selectedCountry.dialCode + formData.phone.trim().replace(/^\+/, '');
+      
       // Prepare data for API submission
       const submissionData: FormSubmissionData = {
         name: formData.name.trim(),
-        phone: formData.phone.trim(),
+        phone: phoneWithCode, // Phone number with country code prefix (e.g., +971501234567)
         company: formData.company?.trim() || undefined,
         email: formData.email.trim(),
         countryCode: selectedCountry.code,
