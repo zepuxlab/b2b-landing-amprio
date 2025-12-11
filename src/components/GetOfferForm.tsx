@@ -15,7 +15,7 @@ interface CountryData {
 
 interface CountryApiResponse {
   countries: CountryData[];
-  detectedCountry: string;
+  defaultCountry?: string;
 }
 
 const GetOfferForm = () => {
@@ -54,7 +54,8 @@ const GetOfferForm = () => {
           if (ipResponse.ok) {
             const ipData = await ipResponse.json();
             if (ipData?.country_code) {
-              detectedCountryCode = ipData.country_code;
+              // Normalize country code to uppercase
+              detectedCountryCode = ipData.country_code.toUpperCase();
             }
           }
         } catch (ipError) {
@@ -62,7 +63,7 @@ const GetOfferForm = () => {
         }
 
         // Then fetch countries list
-        const response = await fetch("https://office.ampriomilano.com/forms/country", {
+        const response = await fetch(API_CONFIG.COUNTRIES_URL, {
           method: "GET",
           headers: {
             "Accept": "application/json",
@@ -78,20 +79,17 @@ const GetOfferForm = () => {
         if (data?.countries && Array.isArray(data.countries) && data.countries.length > 0) {
           setCountries(data.countries);
           
-          // Use detected country from IP or from API response
-          const countryCodeToUse = detectedCountryCode || data.detectedCountry;
+          // Use detected country from IP or from API response defaultCountry
+          const countryCodeToUse = detectedCountryCode || data.defaultCountry || "AE";
           
-          if (countryCodeToUse) {
-            const detected = data.countries.find(c => c.code === countryCodeToUse);
-            if (detected) {
-              setSelectedCountry(detected);
-            } else {
-              // Default to UAE if detected country not in list
-              const uae = data.countries.find(c => c.code === "AE");
-              setSelectedCountry(uae || data.countries[0]);
-            }
+          // Normalize country code to uppercase for comparison
+          const normalizedCode = countryCodeToUse.toUpperCase();
+          const detected = data.countries.find(c => c.code.toUpperCase() === normalizedCode);
+          
+          if (detected) {
+            setSelectedCountry(detected);
           } else {
-            // Default to UAE
+            // Default to UAE if detected country not in list
             const uae = data.countries.find(c => c.code === "AE");
             setSelectedCountry(uae || data.countries[0]);
           }
