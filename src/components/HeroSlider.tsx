@@ -3,19 +3,19 @@ import { ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
 
 const slides = [
   {
-    image: "/images/brezee_1.jpg.webp",
+    image: "/b2b/images/brezee_1.jpg.webp",
     title: "Unbreakable glassware stock Liquidation Sale",
     discount: "-60%",
     description: "Italian unbreakable tableware available in Dubai",
   },
   {
-    image: "/images/COSMOPOLITAN_2_hero.jpg",
+    image: "/b2b/images/COSMOPOLITAN_2_hero.jpg",
     title: "Unbreakable plates: cosmopolitan collection stock liquidation sale",
     discount: "-60%",
     description: "Italian unbreakable tableware available in Dubai",
   },
   {
-    image: "/images/LUNA-CHICZEN_-_tavol.jpg.webp",
+    image: "/b2b/images/LUNA-CHICZEN_-_tavol.jpg.webp",
     title: "Avant-guard collection sale",
     discount: "-30%",
     description: "Italian unbreakable tableware available in Dubai",

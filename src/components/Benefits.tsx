@@ -1,26 +1,26 @@
 const benefits = [
   {
-    icon: "/images/box-alt.svg",
+    icon: "/b2b/images/box-alt.svg",
     title: "Available in stock in Dubai warehouse",
   },
   {
-    icon: "/images/free.svg",
+    icon: "/b2b/images/free.svg",
     title: "Free try-before-you-buy",
   },
   {
-    icon: "/images/price-down.svg",
+    icon: "/b2b/images/price-down.svg",
     title: "The best prices direct from the factory",
   },
   {
-    icon: "/images/plate-utensils.svg",
+    icon: "/b2b/images/plate-utensils.svg",
     title: "Wide selection of essential tableware and glassware for restaurants and hotels",
   },
   {
-    icon: "/images/shipping-fast.svg",
+    icon: "/b2b/images/shipping-fast.svg",
     title: "Next day sample delivery",
   },
   {
-    icon: "/images/membership-vip.svg",
+    icon: "/b2b/images/membership-vip.svg",
     title: "Exclusive collections for standout venues and events",
   },
 ];

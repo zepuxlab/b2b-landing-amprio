@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
 const brands = [
-  { logo: "/images/maison-revka-stacked.png", name: "Maison Revka" },
-  { logo: "/images/gigi_1_1.png", name: "Gigi" },
-  { logo: "/images/la_baia.png", name: "La Baia" },
+  { logo: "/b2b/images/maison-revka-stacked.png", name: "Maison Revka" },
+  { logo: "/b2b/images/gigi_1_1.png", name: "Gigi" },
+  { logo: "/b2b/images/la_baia.png", name: "La Baia" },
 ];
 
 const TrustedBy = () => {
@@ -46,7 +46,7 @@ const TrustedBy = () => {
       <div 
         className="absolute inset-0"
         style={{
-          backgroundImage: "url('/images/photo_2025-08-13_150.jpeg')",
+          backgroundImage: "url('/b2b/images/photo_2025-08-13_150.jpeg')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

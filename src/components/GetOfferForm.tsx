@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { ChevronDown } from "lucide-react";
+import { API_CONFIG, FormSubmissionData } from "@/config/api";
 
 interface CountryData {
   code: string;
@@ -154,22 +155,72 @@ const GetOfferForm = () => {
       return;
     }
 
+    if (!selectedCountry) {
+      toast({
+        title: "Please select a country",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    
-    setFormData({
-      name: "",
-      phone: "",
-      company: "",
-      email: "",
-      privacy: false,
-    });
-    
-    setIsSubmitting(false);
-    
-    // Redirect to thank you page
-    navigate("/thank-you");
+    try {
+      // Prepare data for API submission
+      const submissionData: FormSubmissionData = {
+        name: formData.name.trim(),
+        phone: formData.phone.trim(),
+        company: formData.company?.trim() || undefined,
+        email: formData.email.trim(),
+        countryCode: selectedCountry.code,
+        countryName: selectedCountry.name,
+        privacyAccepted: formData.privacy,
+        timestamp: new Date().toISOString(),
+      };
+
+      // Submit to API
+      const response = await fetch(API_CONFIG.FORM_SUBMIT_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        body: JSON.stringify(submissionData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const result = await response.json();
+      
+      // Reset form
+      setFormData({
+        name: "",
+        phone: "",
+        company: "",
+        email: "",
+        privacy: false,
+      });
+      
+      // Show success message
+      toast({
+        title: "Request submitted successfully!",
+        description: "We will contact you within 24 hours.",
+      });
+      
+      // Redirect to thank you page
+      navigate("/thank-you");
+    } catch (error) {
+      console.error("Form submission error:", error);
+      toast({
+        title: "Submission failed",
+        description: "Please try again later or contact us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -178,7 +229,7 @@ const GetOfferForm = () => {
       <div 
         className="absolute inset-0"
         style={{
-          backgroundImage: "url('/images/CHICZEN_bicchieri_10_form.jpg.webp')",
+          backgroundImage: "url('/b2b/images/CHICZEN_bicchieri_10_form.jpg.webp')",
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',

@@ -57,7 +57,7 @@ const Footer = () => {
       <div 
         className="absolute inset-0 opacity-[0.1] pointer-events-none z-0"
         style={{
-          backgroundImage: `url('/images/pattern-brand.svg')`,
+          backgroundImage: `url('/b2b/images/pattern-brand.svg')`,
           backgroundSize: '865px',
           backgroundRepeat: 'repeat',
           backgroundPosition: '0 0'
@@ -71,7 +71,7 @@ const Footer = () => {
             {/* Left - Logo & Description */}
             <div className="md:w-[320px] lg:w-[380px]">
               <img 
-                src="/images/AM_logo_mini.svg" 
+                src="/b2b/images/AM_logo_mini.svg" 
                 alt="Amprio Milano" 
                 className="h-14 md:h-18 w-auto mb-5 brightness-0 invert" 
               />

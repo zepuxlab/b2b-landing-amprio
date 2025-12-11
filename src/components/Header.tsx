@@ -132,7 +132,7 @@ const Header = () => {
         <div
           className="absolute inset-0 opacity-[0.1] pointer-events-none z-0"
           style={{
-            backgroundImage: `url('/images/pattern-brand.svg')`,
+            backgroundImage: `url('/b2b/images/pattern-brand.svg')`,
             backgroundSize: '555px',
             backgroundRepeat: 'repeat',
             backgroundPosition: '0 0'
@@ -208,7 +208,7 @@ const Header = () => {
             aria-label="Go to top"
           >
             <img 
-              src={isLightBackground ? "/images/logo_am_b2b_dark.svg" : "/images/logo_am_b2b.svg"} 
+              src={isLightBackground ? "/b2b/images/logo_am_b2b_dark.svg" : "/b2b/images/logo_am_b2b.svg"} 
               alt="Amprio Milano" 
               className={`h-[36px] md:h-[44px] transition-all duration-300 ${isLightBackground ? '' : 'brightness-0 invert'}`}
             />

@@ -76,7 +76,7 @@ const Team = () => {
           <div className="relative mb-6 inline-block">
             <div className="w-40 h-40 md:w-56 md:h-56 rounded-full border-4 border-primary overflow-hidden mx-auto">
               <img
-                src="/images/Gemini_Generated_Ima.png"
+                src="/b2b/images/Gemini_Generated_Ima.png"
                 alt="Ibragimova Tatyana - Senior Sales Manager"
                 className="w-full h-full object-cover"
               />

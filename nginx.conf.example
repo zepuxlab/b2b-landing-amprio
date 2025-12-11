@@ -1,0 +1,52 @@
+# Nginx configuration for B2B Landing Page
+# Place this in /etc/nginx/sites-available/office.ampriomilano.com or similar
+# Then create symlink: ln -s /etc/nginx/sites-available/office.ampriomilano.com /etc/nginx/sites-enabled/
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name office.ampriomilano.com;
+
+    # Redirect HTTP to HTTPS (if SSL is configured)
+    # return 301 https://$server_name$request_uri;
+
+    # For now, serve HTTP directly
+    root /path/to/office/b2b;
+    index index.html;
+
+    # B2B landing page location
+    location /b2b {
+        alias /path/to/office/b2b;
+        try_files $uri $uri/ /b2b/index.html;
+        
+        # Security headers
+        add_header X-Frame-Options "SAMEORIGIN" always;
+        add_header X-Content-Type-Options "nosniff" always;
+        add_header X-XSS-Protection "1; mode=block" always;
+        
+        # Cache static assets
+        location ~* \.(jpg|jpeg|png|gif|ico|css|js|svg|webp|woff|woff2|ttf|eot)$ {
+            expires 1y;
+            add_header Cache-Control "public, immutable";
+        }
+    }
+
+    # API proxy (if needed)
+    location /b2b/api {
+        proxy_pass http://localhost:3000;  # Adjust to your API server
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'upgrade';
+        proxy_set_header Host $host;
+        proxy_cache_bypass $http_upgrade;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+
+    # Gzip compression
+    gzip on;
+    gzip_vary on;
+    gzip_min_length 1024;
+    gzip_types text/plain text/css text/xml text/javascript application/x-javascript application/xml+rss application/json application/javascript;
+}

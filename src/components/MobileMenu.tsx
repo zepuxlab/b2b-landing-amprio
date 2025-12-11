@@ -40,7 +40,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
           <div
             className="absolute inset-0 opacity-[0.1] pointer-events-none z-0"
             style={{
-              backgroundImage: `url('/images/pattern-brand.svg')`,
+              backgroundImage: `url('/b2b/images/pattern-brand.svg')`,
               backgroundSize: '555px',
               backgroundRepeat: 'repeat',
               backgroundPosition: '0 0'
@@ -59,7 +59,7 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               className="absolute left-1/2 -translate-x-1/2 cursor-pointer hover:opacity-80 transition-opacity"
               aria-label="Go to top"
             >
-              <img src="/images/logo_am_b2b.svg" alt="Amprio Milano" className="h-[36px] brightness-0 invert" />
+              <img src="/b2b/images/logo_am_b2b.svg" alt="Amprio Milano" className="h-[36px] brightness-0 invert" />
             </button>
             <div className="w-10" />
           </div>
