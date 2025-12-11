@@ -246,10 +246,10 @@
 
   /* Partner button - rounded 50px */
   .btn-partner {
-    @apply bg-primary-foreground text-primary px-8 font-medium 
+    @apply bg-primary-foreground text-primary px-12 font-medium 
            transition-all duration-300 hover:bg-primary-foreground/90 hover:shadow-lg;
-    height: 42px;
-    min-height: 42px;
+    height: 48px;
+    min-height: 48px;
     display: inline-flex;
     align-items: center;
     justify-content: center;

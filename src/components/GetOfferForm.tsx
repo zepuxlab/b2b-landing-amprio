@@ -2,30 +2,15 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { ChevronDown } from "lucide-react";
-import { API_CONFIG, FormSubmissionData } from "@/config/api";
-
-interface CountryData {
-  code: string;
-  name: string;
-  dialCode: string;
-  format: string;
-  placeholder: string;
-  flag: string;
-}
-
-interface CountryApiResponse {
-  countries: CountryData[];
-  defaultCountry?: string;
-}
+import { FormSubmissionData } from "@/config/api";
+import { useCountriesQuery, useCountryDetectionQuery, useSubmitFormMutation, type CountryData } from "@/hooks/use-api";
+import { Loading, ButtonLoading } from "@/components/ui/loading";
 
 const GetOfferForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isCountryOpen, setIsCountryOpen] = useState(false);
-  const [countries, setCountries] = useState<CountryData[]>([]);
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const sectionRef = useRef<HTMLElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   
@@ -37,124 +22,59 @@ const GetOfferForm = () => {
     privacy: false,
   });
 
-  // Fetch countries and detect user country from IP
+  // Fetch countries list using TanStack Query
+  const { 
+    data: countriesData, 
+    isLoading: isLoadingCountries, 
+    error: countriesError 
+  } = useCountriesQuery();
+
+  // Lazy country detection - only enabled when countries are loaded
+  const { 
+    data: detectedCountryCode,
+    isLoading: isLoadingDetection 
+  } = useCountryDetectionQuery(!!countriesData?.countries);
+
+  // Form submission mutation
+  const submitMutation = useSubmitFormMutation();
+
+  // Set default country when data is loaded
   useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        // First, fetch countries list (this is the primary source)
-        const response = await fetch(API_CONFIG.COUNTRIES_URL, {
-          method: "GET",
-          headers: {
-            "Accept": "application/json",
-          },
-        });
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data: CountryApiResponse = await response.json();
-        
-        if (!data?.countries || !Array.isArray(data.countries) || data.countries.length === 0) {
-          throw new Error("Invalid countries data");
-        }
-        
-        setCountries(data.countries);
-        
-        // Try to detect country by IP using multiple services with fallback
-        let detectedCountryCode: string | null = null;
-        
-        // Try service 1: api.country.is (simple and fast)
-        try {
-          const response1 = await fetch("https://api.country.is", {
-            method: "GET",
-            headers: { "Accept": "application/json" },
-          });
-          if (response1.ok) {
-            const data1 = await response1.json();
-            if (data1?.country) {
-              detectedCountryCode = data1.country.toUpperCase();
-            }
-          }
-        } catch (e) {
-          // Try next service
-        }
-        
-        // Try service 2: ipinfo.io (if first failed)
-        if (!detectedCountryCode) {
-          try {
-            const response2 = await fetch("https://ipinfo.io/json", {
-              method: "GET",
-              headers: { "Accept": "application/json" },
-            });
-            if (response2.ok) {
-              const data2 = await response2.json();
-              if (data2?.country) {
-                detectedCountryCode = data2.country.toUpperCase();
-              }
-            }
-          } catch (e) {
-            // Try next service
-          }
-        }
-        
-        // Try service 3: ipapi.co (fallback)
-        if (!detectedCountryCode) {
-          try {
-            const response3 = await fetch("https://ipapi.co/json/", {
-              method: "GET",
-              headers: { "Accept": "application/json" },
-            });
-            if (response3.ok) {
-              const data3 = await response3.json();
-              if (data3?.country_code) {
-                detectedCountryCode = data3.country_code.toUpperCase();
-              }
-            }
-          } catch (e) {
-            // All IP detection services failed, will use API defaultCountry
-          }
-        }
-        
-        // Use detected country from IP, or from API response defaultCountry, or fallback to AE
-        const countryCodeToUse = detectedCountryCode || data.defaultCountry || "AE";
-        
-        // Normalize country code to uppercase for comparison
-        const normalizedCode = countryCodeToUse.toUpperCase();
-        const detected = data.countries.find(c => c.code.toUpperCase() === normalizedCode);
-        
-        if (detected) {
-          setSelectedCountry(detected);
-        } else {
-          // Default to UAE if detected country not in list
-          const uae = data.countries.find(c => c.code === "AE");
-          setSelectedCountry(uae || data.countries[0]);
-        }
-      } catch (error) {
-        console.error("Could not fetch countries:", error);
-        // Fallback country
-        setSelectedCountry({
-          code: "AE",
-          name: "UAE",
-          dialCode: "+971",
-          format: "00-000-0000",
-          placeholder: "00-000-0000",
-          flag: "🇦🇪"
-        });
-        setCountries([{
-          code: "AE",
-          name: "UAE",
-          dialCode: "+971",
-          format: "00-000-0000",
-          placeholder: "00-000-0000",
-          flag: "🇦🇪"
-        }]);
-      } finally {
-        setIsLoading(false);
+    if (countriesData?.countries && countriesData.countries.length > 0 && !selectedCountry) {
+      // Use detected country from IP, or from API response defaultCountry, or fallback to AE
+      const countryCodeToUse = detectedCountryCode || countriesData.defaultCountry || "AE";
+      
+      // Normalize country code to uppercase for comparison
+      const normalizedCode = countryCodeToUse.toUpperCase();
+      const detected = countriesData.countries.find(c => c.code.toUpperCase() === normalizedCode);
+      
+      if (detected) {
+        setSelectedCountry(detected);
+      } else {
+        // Default to UAE if detected country not in list
+        const uae = countriesData.countries.find(c => c.code === "AE");
+        setSelectedCountry(uae || countriesData.countries[0]);
       }
-    };
-    fetchCountries();
-  }, []);
+    }
+  }, [countriesData, detectedCountryCode, selectedCountry]);
+
+  // Fallback country on error
+  useEffect(() => {
+    if (countriesError && !selectedCountry) {
+      const fallbackCountry: CountryData = {
+        code: "AE",
+        name: "UAE",
+        dialCode: "+971",
+        format: "00-000-0000",
+        placeholder: "00-000-0000",
+        flag: "🇦🇪"
+      };
+      setSelectedCountry(fallbackCountry);
+    }
+  }, [countriesError, selectedCountry]);
+
+  const isLoading = isLoadingCountries || isLoadingDetection;
+  const countries = countriesData?.countries || [];
 
   // Close dropdown on outside click
   useEffect(() => {
@@ -195,79 +115,51 @@ const GetOfferForm = () => {
       return;
     }
 
-    setIsSubmitting(true);
+    // Prepare phone number with country code prefix
+    const phoneWithCode = selectedCountry.dialCode + formData.phone.trim().replace(/^\+/, '');
     
-    try {
-      // Prepare phone number with country code prefix
-      const phoneWithCode = selectedCountry.dialCode + formData.phone.trim().replace(/^\+/, '');
-      
-      // Prepare data for API submission
-      const submissionData: FormSubmissionData = {
-        name: formData.name.trim(),
-        phone: phoneWithCode, // Phone number with country code prefix (e.g., +971501234567)
-        company: formData.company?.trim() || undefined,
-        email: formData.email.trim(),
-        countryCode: selectedCountry.code,
-        countryName: selectedCountry.name,
-        privacyAccepted: formData.privacy,
-        timestamp: new Date().toISOString(),
-      };
+    // Prepare data for API submission
+    const submissionData: FormSubmissionData = {
+      name: formData.name.trim(),
+      phone: phoneWithCode, // Phone number with country code prefix (e.g., +971501234567)
+      company: formData.company?.trim() || undefined,
+      email: formData.email.trim(),
+      countryCode: selectedCountry.code,
+      countryName: selectedCountry.name,
+      privacyAccepted: formData.privacy,
+      timestamp: new Date().toISOString(),
+    };
 
-      // Submit to API
-      const response = await fetch(API_CONFIG.FORM_SUBMIT_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-        },
-        body: JSON.stringify(submissionData),
-      });
-
-      // Parse response
-      let result;
-      try {
-        result = await response.json();
-      } catch (parseError) {
-        // If response is not JSON, check status
-        if (!response.ok) {
-          throw new Error(`API error: ${response.status} ${response.statusText}`);
-        }
-        // If response is ok but not JSON, consider it success
-        result = { success: true };
-      }
-
-      // Check if request was successful (either response.ok or result.success)
-      if (!response.ok && !result.success) {
-        throw new Error(`API error: ${response.status} - ${result.message || 'Unknown error'}`);
-      }
-      
-      // Reset form
-      setFormData({
-        name: "",
-        phone: "",
-        company: "",
-        email: "",
-        privacy: false,
-      });
-      
-      // Show success message
-      toast({
-        title: "Request submitted successfully!",
-        description: "We will contact you within 24 hours.",
-      });
-      
-      // Redirect to thank you page
-      navigate("/thank-you");
-    } catch (error) {
-      console.error("Form submission error:", error);
-      toast({
-        title: "Submission failed",
-        description: "Please try again later or contact us directly.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    // Submit using mutation
+    submitMutation.mutate(submissionData, {
+      onSuccess: () => {
+        // Reset form
+        setFormData({
+          name: "",
+          phone: "",
+          company: "",
+          email: "",
+          privacy: false,
+        });
+        
+        // Show success message
+        toast({
+          title: "Request submitted successfully!",
+          description: "We will contact you within 24 hours.",
+        });
+        
+        // Redirect to thank you page
+        navigate("/thank-you");
+      },
+      onError: (error) => {
+        console.error("Form submission error:", error);
+        toast({
+          title: "Submission failed",
+          description: error.message || "Please try again later or contact us directly.",
+          variant: "destructive",
+        });
+      },
+    });
   };
 
   return (
@@ -308,7 +200,10 @@ const GetOfferForm = () => {
             Fill in the form and we will contact you within 24 hours
           </p>
           
-          <form onSubmit={handleSubmit} className="space-y-4">
+          {isLoading ? (
+            <Loading text="Loading form..." className="py-8" />
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="text"
               name="name"
@@ -408,12 +303,17 @@ const GetOfferForm = () => {
             
             <button
               type="submit"
-              disabled={isSubmitting}
+              disabled={submitMutation.isPending}
               className="btn-light w-full disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {isSubmitting ? "Sending..." : "Get Exclusive Offer"}
+              {submitMutation.isPending ? (
+                <ButtonLoading className="justify-center" />
+              ) : (
+                "Get Exclusive Offer"
+              )}
             </button>
           </form>
+          )}
               </div>
             </div>
           </div>
