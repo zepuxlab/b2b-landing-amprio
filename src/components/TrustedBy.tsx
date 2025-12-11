@@ -64,10 +64,6 @@ const TrustedBy = () => {
             Trusted by<br />
             Major Brands
           </h2>
-          <p className="text-primary-foreground/80 max-w-xl mx-auto leading-relaxed">
-            We know everything about the manufacturers we work with and guarantee 
-            impeccable quality and functionality of products.
-          </p>
         </div>
 
         {/* Infinite scroll brands */}
