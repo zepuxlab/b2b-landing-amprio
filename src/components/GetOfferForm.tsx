@@ -223,11 +223,23 @@ const GetOfferForm = () => {
         body: JSON.stringify(submissionData),
       });
 
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
+      // Parse response
+      let result;
+      try {
+        result = await response.json();
+      } catch (parseError) {
+        // If response is not JSON, check status
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status} ${response.statusText}`);
+        }
+        // If response is ok but not JSON, consider it success
+        result = { success: true };
       }
 
-      const result = await response.json();
+      // Check if request was successful (either response.ok or result.success)
+      if (!response.ok && !result.success) {
+        throw new Error(`API error: ${response.status} - ${result.message || 'Unknown error'}`);
+      }
       
       // Reset form
       setFormData({
