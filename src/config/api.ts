@@ -1,8 +1,7 @@
 // API Configuration
-// TODO: Replace with actual API endpoint when provided
 export const API_CONFIG = {
   // Form submission endpoint
-  FORM_SUBMIT_URL: process.env.VITE_API_FORM_SUBMIT_URL || 'https://office.ampriomilano.com/api/b2b/form',
+  FORM_SUBMIT_URL: process.env.VITE_API_FORM_SUBMIT_URL || 'https://office.ampriomilano.com/forms/b2blanding',
   
   // Countries endpoint (already in use)
   COUNTRIES_URL: 'https://office.ampriomilano.com/forms/country',

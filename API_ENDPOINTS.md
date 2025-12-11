@@ -3,7 +3,7 @@
 ## Используемые API Endpoints
 
 ### 1. Форма отправки данных (Form Submission)
-- **URL**: `https://office.ampriomilano.com/api/b2b/form`
+- **URL**: `https://office.ampriomilano.com/forms/b2blanding`
 - **Метод**: `POST`
 - **Content-Type**: `application/json`
 - **Описание**: Отправка данных формы заявки
@@ -107,7 +107,7 @@
 
 ```typescript
 export const API_CONFIG = {
-  FORM_SUBMIT_URL: process.env.VITE_API_FORM_SUBMIT_URL || 'https://office.ampriomilano.com/api/b2b/form',
+  FORM_SUBMIT_URL: process.env.VITE_API_FORM_SUBMIT_URL || 'https://office.ampriomilano.com/forms/b2blanding',
   COUNTRIES_URL: 'https://office.ampriomilano.com/forms/country',
 };
 ```
