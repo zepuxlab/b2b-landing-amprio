@@ -46,14 +46,31 @@ const HeroSlider = () => {
   }, [isAnimating]);
 
   const handleTouchStart = (e: React.TouchEvent) => {
-    touchStartX.current = e.touches[0].clientX;
+    const touchX = e.touches[0].clientX;
+    const screenWidth = window.innerWidth;
+    const sideZoneWidth = screenWidth * 0.2; // 20% с каждой стороны
+    
+    // Разрешаем свайп только если он начался в боковых зонах
+    if (touchX <= sideZoneWidth || touchX >= screenWidth - sideZoneWidth) {
+      touchStartX.current = touchX;
+    } else {
+      // Если touch начался в центральной зоне, блокируем свайп
+      touchStartX.current = -1;
+    }
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
-    touchEndX.current = e.touches[0].clientX;
+    if (touchStartX.current !== -1) {
+      touchEndX.current = e.touches[0].clientX;
+    }
   };
 
   const handleTouchEnd = () => {
+    // Проверяем, что свайп был начат в боковой зоне
+    if (touchStartX.current === -1) {
+      return;
+    }
+    
     const diff = touchStartX.current - touchEndX.current;
     if (Math.abs(diff) > 50) {
       if (diff > 0) {
@@ -62,6 +79,10 @@ const HeroSlider = () => {
         prevSlide();
       }
     }
+    
+    // Сброс значений
+    touchStartX.current = 0;
+    touchEndX.current = 0;
   };
 
   useEffect(() => {
