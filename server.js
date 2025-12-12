@@ -28,16 +28,11 @@ if (!isProduction) {
   app.use(base, sirv("./dist/client", { extensions: [] }));
 }
 
-// Serve HTML - catch all routes (must be last)
-// Use middleware without path to catch all routes
-app.use(async (req, res) => {
+// Serve HTML - only for /b2b routes
+app.use("/b2b", async (req, res) => {
   try {
-    // Get URL and normalize it
-    let url = req.originalUrl;
-    // Remove base path if present
-    if (url.startsWith(base)) {
-      url = url.replace(base, "") || "/";
-    }
+    // Get URL and normalize it - remove /b2b prefix
+    let url = req.originalUrl.replace(base, "") || "/";
     // Ensure it starts with /
     if (!url.startsWith("/")) {
       url = "/" + url;
