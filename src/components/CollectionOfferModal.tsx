@@ -173,7 +173,8 @@ const CollectionOfferModal = ({ open, onOpenChange, collection }: CollectionOffe
       {showTitle && (
         <div>
           <h3 className="text-primary mb-2 font-serif text-2xl md:text-3xl uppercase tracking-wide">
-            Interested? {collection.name}
+            Interested?<br />
+            {collection.name}
           </h3>
         </div>
       )}
@@ -331,7 +332,8 @@ const CollectionOfferModal = ({ open, onOpenChange, collection }: CollectionOffe
             {/* Title */}
             <div className="px-4 pt-4 pb-2 flex-shrink-0">
               <h3 className="text-primary font-serif text-2xl uppercase tracking-wide">
-                Interested? {collection.name}
+                Interested?<br />
+                {collection.name}
               </h3>
             </div>
             
