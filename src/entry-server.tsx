@@ -24,19 +24,16 @@ export async function render(url: string, req: Request, res: Response) {
 
   const helmetContext: { helmet?: any } = {};
 
-  // Normalize URL - remove base path if present
+  // Ensure URL starts with /b2b for basename matching
   let normalizedUrl = url;
-  if (normalizedUrl.startsWith('/b2b')) {
-    normalizedUrl = normalizedUrl.replace('/b2b', '') || '/';
-  }
-  if (!normalizedUrl.startsWith('/')) {
-    normalizedUrl = '/' + normalizedUrl;
+  if (!normalizedUrl.startsWith('/b2b')) {
+    normalizedUrl = '/b2b' + (normalizedUrl.startsWith('/') ? normalizedUrl : '/' + normalizedUrl);
   }
 
   const html = renderToString(
     <HelmetProvider context={helmetContext}>
       <QueryClientProvider client={queryClient}>
-        <StaticRouter location={normalizedUrl}>
+        <StaticRouter location={normalizedUrl} basename="/b2b">
           <App />
         </StaticRouter>
       </QueryClientProvider>
