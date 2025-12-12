@@ -1,5 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import NavigationButtons from "./NavigationButtons";
+import CollectionOfferModal from "./CollectionOfferModal";
 
 const collections = [
   {
@@ -56,6 +57,12 @@ const ProductCollections = () => {
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchScrollLeft, setTouchScrollLeft] = useState(0);
   const [isTouching, setIsTouching] = useState(false);
+  const [selectedCollection, setSelectedCollection] = useState<{
+    name: string;
+    description: string;
+    image: string;
+  } | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   // Функция для плавной прокрутки с easing
   const smoothScrollTo = (target: number, duration: number) => {
@@ -83,16 +90,13 @@ const ProductCollections = () => {
     requestAnimationFrame(animation);
   };
 
-  const scrollToForm = () => {
-    const formElement = document.getElementById("get-offer");
-    if (formElement) {
-      const headerHeight = 65; // Высота header (h-18 = 72px + padding) + дополнительный offset
-      const elementPosition = formElement.getBoundingClientRect().top + window.pageYOffset;
-      const offsetPosition = elementPosition - headerHeight;
-      
-      // Плавная прокрутка с easing функцией
-      smoothScrollTo(offsetPosition, 400);
-    }
+  const handleGetOffer = (collection: typeof collections[0]) => {
+    setSelectedCollection({
+      name: collection.name,
+      description: collection.description,
+      image: collection.image,
+    });
+    setIsModalOpen(true);
   };
 
   const checkScroll = () => {
@@ -263,7 +267,7 @@ const ProductCollections = () => {
                       {collection.description}
                     </p>
                     <button
-                      onClick={scrollToForm}
+                      onClick={() => handleGetOffer(collection)}
                       className="btn-dark w-full text-[15px] mt-auto"
                     >
                       Get Offer
@@ -275,6 +279,13 @@ const ProductCollections = () => {
           </div>
         </div>
       </div>
+
+      {/* Collection Offer Modal */}
+      <CollectionOfferModal
+        open={isModalOpen}
+        onOpenChange={setIsModalOpen}
+        collection={selectedCollection}
+      />
     </section>
   );
 };

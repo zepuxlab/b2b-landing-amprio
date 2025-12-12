@@ -53,7 +53,7 @@ const TrustedBy = () => {
       backgroundRef.current.style.backgroundAttachment = 
         isMobile ? 'scroll' : 'fixed';
       backgroundRef.current.style.backgroundSize = 
-        isMobile ? '150%' : 'cover';
+        isMobile ? '170%' : 'cover';
     }
   }, [isMobile]);
 
@@ -71,7 +71,7 @@ const TrustedBy = () => {
         className="absolute inset-0"
         style={{
           backgroundImage: "url('/b2b/images/photo_2025-08-13_150.jpeg')",
-          backgroundSize: isMobile ? '150%' : 'cover',
+          backgroundSize: isMobile ? '170%' : 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
           backgroundAttachment: 'scroll', // Will be updated by useEffect
