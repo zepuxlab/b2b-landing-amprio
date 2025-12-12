@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { isSafari as detectSafari } from "../utils/browser";
 
 const brands = [
   { logo: "/b2b/images/maison-revka-stacked.png", name: "Maison Revka" },
@@ -42,13 +43,10 @@ const TrustedBy = () => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
-    const checkSafari = () => {
-      setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
-    };
     
+    setIsSafari(detectSafari());
     checkMobile();
-    checkSafari();
-    window.addEventListener('resize', checkMobile);
+    window.addEventListener('resize', checkMobile, { passive: true });
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 

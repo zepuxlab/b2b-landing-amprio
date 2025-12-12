@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { ChevronLeft, ChevronRight, ChevronUp } from "lucide-react";
+import { isSafari } from "../utils/browser";
 
 const slides = [
   {
@@ -28,6 +29,7 @@ const HeroSlider = () => {
   const [parallaxOffset, setParallaxOffset] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [isSafariBrowser, setIsSafariBrowser] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
@@ -96,29 +98,43 @@ const HeroSlider = () => {
       setIsMobile(window.innerWidth < 768);
     };
     
+    // Check Safari on mount
+    setIsSafariBrowser(isSafari());
+    
     checkMobile();
     window.addEventListener("resize", checkMobile, { passive: true });
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   useEffect(() => {
-    // Detect Safari
-    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-    
-    // Disable parallax on mobile and Safari
-    if (isMobile || isSafari) {
+    // Disable parallax on mobile and Safari completely
+    if (isMobile || isSafariBrowser) {
       setParallaxOffset(0);
-      return;
+      // Still handle scroll top button
+      const handleScroll = () => {
+        setShowScrollTop(window.scrollY > 300);
+      };
+      window.addEventListener("scroll", handleScroll, { passive: true });
+      handleScroll();
+      return () => window.removeEventListener("scroll", handleScroll);
     }
 
+    // Parallax only for non-mobile, non-Safari browsers
     let rafId: number | null = null;
+    let lastScrollY = window.scrollY;
+    
     const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Throttle updates
+      if (Math.abs(currentScrollY - lastScrollY) < 1) return;
+      lastScrollY = currentScrollY;
+      
       if (rafId !== null) return;
       
       rafId = requestAnimationFrame(() => {
-        const scrolled = window.scrollY;
-        setParallaxOffset(scrolled * 0.4);
-        setShowScrollTop(scrolled > 300);
+        setParallaxOffset(currentScrollY * 0.4);
+        setShowScrollTop(currentScrollY > 300);
         rafId = null;
       });
     };
@@ -129,7 +145,7 @@ const HeroSlider = () => {
       window.removeEventListener("scroll", handleScroll);
       if (rafId !== null) cancelAnimationFrame(rafId);
     };
-  }, [isMobile]);
+  }, [isMobile, isSafariBrowser]);
 
   // Функция для плавной прокрутки с easing
   const smoothScrollTo = (target: number, duration: number) => {
@@ -191,11 +207,12 @@ const HeroSlider = () => {
             <img
               src={slide.image}
               alt={slide.title}
-              className="absolute inset-0 w-full h-full object-cover will-change-transform"
+              className="absolute inset-0 w-full h-full object-cover"
               style={{ 
-                transform: (isMobile || parallaxOffset === 0)
+                transform: (isMobile || isSafariBrowser || parallaxOffset === 0)
                   ? 'none'
-                  : `translateY(${parallaxOffset}px) scale(1.1)`,
+                  : `translate3d(0, ${parallaxOffset}px, 0) scale(1.1)`,
+                willChange: (isMobile || isSafariBrowser || parallaxOffset === 0) ? 'auto' : 'transform',
               }}
               loading="eager"
               fetchPriority="high"
@@ -203,12 +220,13 @@ const HeroSlider = () => {
             />
           ) : (
             <div
-              className="absolute inset-0 bg-cover bg-center will-change-transform"
+              className="absolute inset-0 bg-cover bg-center"
               style={{ 
                 backgroundImage: `url(${slide.image})`,
-                transform: (isMobile || parallaxOffset === 0)
+                transform: (isMobile || isSafariBrowser || parallaxOffset === 0)
                   ? 'none'
-                  : `translateY(${parallaxOffset}px) scale(1.1)`,
+                  : `translate3d(0, ${parallaxOffset}px, 0) scale(1.1)`,
+                willChange: (isMobile || isSafariBrowser || parallaxOffset === 0) ? 'auto' : 'transform',
               }}
             />
           )}

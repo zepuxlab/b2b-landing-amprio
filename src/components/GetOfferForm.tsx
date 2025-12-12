@@ -5,12 +5,14 @@ import { ChevronDown } from "lucide-react";
 import { FormSubmissionData } from "@/config/api";
 import { useCountriesQuery, useCountryDetectionQuery, useSubmitFormMutation, type CountryData } from "@/hooks/use-api";
 import { Loading, ButtonLoading } from "@/components/ui/loading";
+import { isSafari } from "@/utils/browser";
 
 const GetOfferForm = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isCountryOpen, setIsCountryOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState<CountryData | null>(null);
+  const [isSafariBrowser, setIsSafariBrowser] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   
@@ -77,6 +79,10 @@ const GetOfferForm = () => {
   const countries = countriesData?.countries || [];
 
   // Close dropdown on outside click
+  useEffect(() => {
+    setIsSafariBrowser(isSafari());
+  }, []);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -172,7 +178,7 @@ const GetOfferForm = () => {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed',
+          backgroundAttachment: isSafariBrowser ? 'scroll' : 'fixed',
         }}
       />
       
