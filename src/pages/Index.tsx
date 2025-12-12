@@ -1,17 +1,13 @@
 import { Helmet } from "react-helmet-async";
-import { Suspense, lazy } from "react";
 import Header from "@/components/Header";
 import HeroSlider from "@/components/HeroSlider";
-import { Loading } from "@/components/ui/loading";
-
-// Lazy load components that are below the fold
-const TrustedBy = lazy(() => import("@/components/TrustedBy"));
-const Benefits = lazy(() => import("@/components/Benefits"));
-const ProductCollections = lazy(() => import("@/components/ProductCollections"));
-const Team = lazy(() => import("@/components/Team"));
-const GetOfferForm = lazy(() => import("@/components/GetOfferForm"));
-const Footer = lazy(() => import("@/components/Footer"));
-const WhatsAppButton = lazy(() => import("@/components/WhatsAppButton"));
+import TrustedBy from "@/components/TrustedBy";
+import Benefits from "@/components/Benefits";
+import ProductCollections from "@/components/ProductCollections";
+import Team from "@/components/Team";
+import GetOfferForm from "@/components/GetOfferForm";
+import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => {
   return (
@@ -31,47 +27,33 @@ const Index = () => {
           <HeroSlider />
         </div>
         
-        {/* Scrolling sections that overlay hero - lazy loaded */}
+        {/* Scrolling sections that overlay hero */}
         <div className="relative z-10">
-          <Suspense fallback={<Loading className="py-20" />}>
-            <TrustedBy />
-          </Suspense>
+          <TrustedBy />
         </div>
         
         <div className="relative z-20">
-          <Suspense fallback={<Loading className="py-20" />}>
-            <Benefits />
-          </Suspense>
+          <Benefits />
         </div>
         
         <div className="relative z-30">
-          <Suspense fallback={<Loading className="py-20" />}>
-            <ProductCollections />
-          </Suspense>
+          <ProductCollections />
         </div>
         
         <div className="relative z-40">
-          <Suspense fallback={<Loading className="py-20" />}>
-            <Team />
-          </Suspense>
+          <Team />
         </div>
         
         <div className="relative z-50">
-          <Suspense fallback={<Loading className="py-20" />}>
-            <GetOfferForm />
-          </Suspense>
+          <GetOfferForm />
         </div>
       </main>
       
       <div className="relative z-[60]">
-        <Suspense fallback={<Loading className="py-20" />}>
-          <Footer />
-        </Suspense>
+        <Footer />
       </div>
       
-      <Suspense fallback={null}>
-        <WhatsAppButton />
-      </Suspense>
+      <WhatsAppButton />
     </>
   );
 };

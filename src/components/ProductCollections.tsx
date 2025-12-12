@@ -53,6 +53,9 @@ const ProductCollections = () => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+  const [touchStartX, setTouchStartX] = useState(0);
+  const [touchScrollLeft, setTouchScrollLeft] = useState(0);
+  const [isTouching, setIsTouching] = useState(false);
 
   // Функция для плавной прокрутки с easing
   const smoothScrollTo = (target: number, duration: number) => {
@@ -142,6 +145,41 @@ const ProductCollections = () => {
     setIsDragging(false);
   };
 
+  // Touch handlers for mobile snap-to-card scrolling
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (!scrollRef.current) return;
+    setIsTouching(true);
+    setTouchStartX(e.touches[0].clientX);
+    setTouchScrollLeft(scrollRef.current.scrollLeft);
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isTouching || !scrollRef.current) return;
+    const x = e.touches[0].clientX;
+    const walk = (x - touchStartX) * 1.5;
+    scrollRef.current.scrollLeft = touchScrollLeft - walk;
+  };
+
+  const handleTouchEnd = () => {
+    if (!scrollRef.current || !isTouching) return;
+    setIsTouching(false);
+    
+    // Snap to nearest card
+    const container = scrollRef.current;
+    const isMobile = window.innerWidth < 768;
+    const cardWidth = isMobile ? 200 + 16 : 260 + 20; // card width + gap
+    const scrollPosition = container.scrollLeft;
+    const nearestCardIndex = Math.round(scrollPosition / cardWidth);
+    const targetScroll = nearestCardIndex * cardWidth;
+    
+    container.scrollTo({
+      left: targetScroll,
+      behavior: 'smooth'
+    });
+    
+    setTimeout(checkScroll, 300);
+  };
+
   return (
     <section id="collections" className="py-16 md:py-24 bg-background bg-noise-light scroll-section-content">
       <div className="container mx-auto max-w-[1440px] px-3 md:px-4">
@@ -179,15 +217,24 @@ const ProductCollections = () => {
               onMouseMove={handleMouseMove}
               onMouseUp={handleMouseUp}
               onMouseLeave={handleMouseLeave}
+              onTouchStart={handleTouchStart}
+              onTouchMove={handleTouchMove}
+              onTouchEnd={handleTouchEnd}
               className={`flex items-stretch gap-4 md:gap-5 overflow-x-auto pb-2 scroll-smooth -mx-3 px-3 md:mx-0 md:px-0 ${
                 isDragging ? "cursor-grabbing select-none" : "cursor-grab"
               }`}
-              style={{ scrollbarWidth: "none", msOverflowStyle: "none", WebkitOverflowScrolling: "touch" }}
+              style={{ 
+                scrollbarWidth: "none", 
+                msOverflowStyle: "none", 
+                WebkitOverflowScrolling: "touch",
+                scrollSnapType: "x mandatory",
+              }}
             >
               {collections.map((collection, index) => (
                 <article
                   key={index}
                   className="flex-shrink-0 w-[200px] md:w-[260px] group text-center md:text-left flex flex-col"
+                  style={{ scrollSnapAlign: "start" }}
                 >
                   {/* Tall Image with Hover Effect */}
                   <div className="h-[260px] md:h-[320px] rounded-lg overflow-hidden mb-4 relative">

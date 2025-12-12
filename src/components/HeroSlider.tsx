@@ -27,6 +27,7 @@ const HeroSlider = () => {
   const [isAnimating, setIsAnimating] = useState(false);
   const [parallaxOffset, setParallaxOffset] = useState(0);
   const [showScrollTop, setShowScrollTop] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const touchStartX = useRef<number>(0);
   const touchEndX = useRef<number>(0);
@@ -91,9 +92,20 @@ const HeroSlider = () => {
   }, [nextSlide]);
 
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener("resize", checkMobile, { passive: true });
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       const scrolled = window.scrollY;
-      setParallaxOffset(scrolled * 0.4);
+      // Отключаем параллакс на мобильных устройствах
+      setParallaxOffset(isMobile ? 0 : scrolled * 0.4);
       // Show scroll to top button when scrolled down more than 300px
       setShowScrollTop(scrolled > 300);
     };
@@ -101,7 +113,7 @@ const HeroSlider = () => {
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // Check initial state
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [isMobile]);
 
   // Функция для плавной прокрутки с easing
   const smoothScrollTo = (target: number, duration: number) => {
@@ -162,7 +174,9 @@ const HeroSlider = () => {
             className="absolute inset-0 bg-cover bg-center will-change-transform"
             style={{ 
               backgroundImage: `url(${slide.image})`,
-              transform: `translateY(${parallaxOffset}px) scale(1.1)`,
+              transform: !isMobile 
+                ? `translateY(${parallaxOffset}px) scale(1.1)` 
+                : 'none',
             }}
           />
           <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.50), rgba(0,0,0,0.50))" }} />

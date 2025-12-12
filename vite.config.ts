@@ -16,9 +16,10 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: "dist",
+    outDir: "dist/client",
     sourcemap: false,
     minify: "terser",
+    manifest: true,
     terserOptions: {
       compress: {
         drop_console: true,
@@ -26,6 +27,9 @@ export default defineConfig({
       },
     },
     rollupOptions: {
+      input: {
+        main: path.resolve(__dirname, "index.html"),
+      },
       output: {
         manualChunks: {
           vendor: ["react", "react-dom", "react-router-dom"],
@@ -33,5 +37,8 @@ export default defineConfig({
         },
       },
     },
+  },
+  ssr: {
+    noExternal: ["react-helmet-async"],
   },
 });

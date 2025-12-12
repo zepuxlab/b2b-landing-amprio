@@ -9,6 +9,8 @@ const brands = [
 const TrustedBy = () => {
   const scrollRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
@@ -34,6 +36,27 @@ const TrustedBy = () => {
     return () => cancelAnimationFrame(animationId);
   }, []);
 
+  // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Set background attachment and size based on screen size
+  useEffect(() => {
+    if (backgroundRef.current) {
+      backgroundRef.current.style.backgroundAttachment = 
+        isMobile ? 'scroll' : 'fixed';
+      backgroundRef.current.style.backgroundSize = 
+        isMobile ? '150%' : 'cover';
+    }
+  }, [isMobile]);
+
   const duplicatedBrands = [...brands, ...brands, ...brands];
 
   return (
@@ -44,13 +67,14 @@ const TrustedBy = () => {
     >
       {/* Parallax Background */}
       <div 
+        ref={backgroundRef}
         className="absolute inset-0"
         style={{
           backgroundImage: "url('/b2b/images/photo_2025-08-13_150.jpeg')",
-          backgroundSize: 'cover',
+          backgroundSize: isMobile ? '150%' : 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'fixed',
+          backgroundAttachment: 'scroll', // Will be updated by useEffect
         }}
       />
       
