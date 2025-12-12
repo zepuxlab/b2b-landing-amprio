@@ -37,9 +37,11 @@ const DrawerContent = React.forwardRef<
   const hideHandle = className?.includes('no-handle') || className?.includes('[&>div:first-child]:hidden');
   const isTopDirection = className?.includes('!top-[') || className?.includes('top-[64px]');
   const isLeftDirection = className?.includes('!left-0') || className?.includes('direction="left"');
+  // Check if content has high z-index, then overlay should be lower
+  const contentZIndex = className?.includes('!z-[10000]') ? '!z-[9998]' : "!z-[9999]";
   return (
     <DrawerPortal>
-      <DrawerOverlay className={cn("!z-[9999]", isTopDirection && "mobile-menu-overlay")} />
+      <DrawerOverlay className={cn(contentZIndex, isTopDirection && "mobile-menu-overlay")} />
       <DrawerPrimitive.Content
         ref={ref}
         className={cn(

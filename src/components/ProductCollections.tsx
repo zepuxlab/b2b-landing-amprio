@@ -224,7 +224,7 @@ const ProductCollections = () => {
               onTouchStart={handleTouchStart}
               onTouchMove={handleTouchMove}
               onTouchEnd={handleTouchEnd}
-              className={`flex items-stretch gap-4 md:gap-5 overflow-x-auto pb-2 scroll-smooth -mx-3 px-3 md:mx-0 md:px-0 ${
+              className={`flex items-stretch gap-4 md:gap-5 overflow-x-auto pb-2 scroll-smooth px-3 md:px-0 ${
                 isDragging ? "cursor-grabbing select-none" : "cursor-grab"
               }`}
               style={{ 
@@ -237,7 +237,7 @@ const ProductCollections = () => {
               {collections.map((collection, index) => (
                 <article
                   key={index}
-                  className="flex-shrink-0 w-[200px] md:w-[260px] group text-center md:text-left flex flex-col"
+                  className="flex-shrink-0 w-[220px] md:w-[260px] group text-center md:text-left flex flex-col"
                   style={{ scrollSnapAlign: "start" }}
                 >
                   {/* Tall Image with Hover Effect */}
