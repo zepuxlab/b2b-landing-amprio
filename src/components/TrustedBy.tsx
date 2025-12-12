@@ -11,6 +11,7 @@ const TrustedBy = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isSafari, setIsSafari] = useState(false);
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
@@ -36,13 +37,17 @@ const TrustedBy = () => {
     return () => cancelAnimationFrame(animationId);
   }, []);
 
-  // Detect mobile
+  // Detect mobile and Safari
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
     };
+    const checkSafari = () => {
+      setIsSafari(/^((?!chrome|android).)*safari/i.test(navigator.userAgent));
+    };
     
     checkMobile();
+    checkSafari();
     window.addEventListener('resize', checkMobile);
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
@@ -50,12 +55,13 @@ const TrustedBy = () => {
   // Set background attachment and size based on screen size
   useEffect(() => {
     if (backgroundRef.current) {
+      // Disable parallax (fixed attachment) on mobile and Safari
       backgroundRef.current.style.backgroundAttachment = 
-        isMobile ? 'scroll' : 'fixed';
+        (isMobile || isSafari) ? 'scroll' : 'fixed';
       backgroundRef.current.style.backgroundSize = 
         isMobile ? '170%' : 'cover';
     }
-  }, [isMobile]);
+  }, [isMobile, isSafari]);
 
   const duplicatedBrands = [...brands, ...brands, ...brands];
 
@@ -74,7 +80,7 @@ const TrustedBy = () => {
           backgroundSize: isMobile ? '170%' : 'cover',
           backgroundPosition: 'center',
           backgroundRepeat: 'no-repeat',
-          backgroundAttachment: 'scroll', // Will be updated by useEffect
+          backgroundAttachment: (isMobile || isSafari) ? 'scroll' : 'fixed', // Will be updated by useEffect
         }}
       />
       

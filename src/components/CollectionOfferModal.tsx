@@ -476,8 +476,8 @@ const CollectionOfferModal = ({ open, onOpenChange, collection }: CollectionOffe
   // Desktop: Dialog (modal with image on left, form on right)
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-5xl w-full p-0 gap-0 grid grid-cols-[1fr,1.2fr] !border-0">
-        {/* Left: Image */}
+      <DialogContent className="max-w-5xl w-full p-0 gap-0 grid grid-cols-[1fr,1.2fr] !border-0 overflow-hidden">
+        {/* Left: Image - no rounded corners */}
         <div className="relative w-full h-full min-h-[500px] overflow-hidden">
           <img
             src={collection.image}
@@ -493,8 +493,8 @@ const CollectionOfferModal = ({ open, onOpenChange, collection }: CollectionOffe
           />
         </div>
         
-        {/* Right: Form */}
-        <div className="p-8 overflow-y-auto max-h-[80vh] min-w-0 flex-shrink-0">
+        {/* Right: Form - rounded right corners */}
+        <div className="p-8 overflow-y-auto max-h-[80vh] min-w-0 flex-shrink-0 rounded-r-lg">
           <FormContent />
         </div>
       </DialogContent>

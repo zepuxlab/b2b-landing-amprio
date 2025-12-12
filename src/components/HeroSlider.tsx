@@ -102,7 +102,11 @@ const HeroSlider = () => {
   }, []);
 
   useEffect(() => {
-    if (isMobile) {
+    // Detect Safari
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+    
+    // Disable parallax on mobile and Safari
+    if (isMobile || isSafari) {
       setParallaxOffset(0);
       return;
     }
@@ -189,9 +193,9 @@ const HeroSlider = () => {
               alt={slide.title}
               className="absolute inset-0 w-full h-full object-cover will-change-transform"
               style={{ 
-                transform: !isMobile 
-                  ? `translateY(${parallaxOffset}px) scale(1.1)` 
-                  : 'none',
+                transform: (isMobile || parallaxOffset === 0)
+                  ? 'none'
+                  : `translateY(${parallaxOffset}px) scale(1.1)`,
               }}
               loading="eager"
               fetchPriority="high"
@@ -202,9 +206,9 @@ const HeroSlider = () => {
               className="absolute inset-0 bg-cover bg-center will-change-transform"
               style={{ 
                 backgroundImage: `url(${slide.image})`,
-                transform: !isMobile 
-                  ? `translateY(${parallaxOffset}px) scale(1.1)` 
-                  : 'none',
+                transform: (isMobile || parallaxOffset === 0)
+                  ? 'none'
+                  : `translateY(${parallaxOffset}px) scale(1.1)`,
               }}
             />
           )}
