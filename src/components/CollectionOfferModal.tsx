@@ -318,6 +318,9 @@ const CollectionOfferModal = ({ open, onOpenChange, collection }: CollectionOffe
                 src={collection.image}
                 alt={collection.name}
                 className="w-full h-full object-cover rounded-t-[16px]"
+                loading="eager"
+                decoding="async"
+                fetchPriority="high"
               />
               {/* Close button overlay */}
               <button
@@ -481,7 +484,13 @@ const CollectionOfferModal = ({ open, onOpenChange, collection }: CollectionOffe
             src={collection.image}
             alt={collection.name}
             className="w-full h-full object-cover"
-            style={{ objectFit: 'cover', objectPosition: 'center' }}
+            loading="eager"
+            decoding="async"
+            fetchPriority="high"
+            style={{ 
+              objectFit: 'cover', 
+              objectPosition: 'center'
+            }}
           />
         </div>
         

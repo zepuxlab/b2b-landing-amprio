@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Phone, MessageCircle } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import MobileMenu from "./MobileMenu";
 
 const Header = () => {
@@ -72,11 +73,12 @@ const Header = () => {
       const headerRect = header.getBoundingClientRect();
       const headerCenter = headerRect.top + headerRect.height / 2;
       
-      // Темные секции (меню темное): Hero, Brands и Form
+      // Темные секции (меню темное): Hero, Brands, Form и Footer
       const darkSections = [
         document.querySelector('section[class*="h-screen"]'), // Hero
         document.getElementById('brands'), // TrustedBy
         document.getElementById('get-offer'), // GetOfferForm
+        document.querySelector('footer'), // Footer
       ].filter(Boolean);
 
       // Светлые секции (меню белое): Collections, Benefits, Team, Privacy Policy
@@ -125,8 +127,15 @@ const Header = () => {
     };
   }, []);
 
+  // Calculate theme color based on background
+  const themeColor = isLightBackground ? '#ffffff' : '#1e3252'; // primary color: hsl(220 50% 22%) ≈ #1e3252
+
   return (
     <>
+      <Helmet>
+        <meta name="theme-color" content={themeColor} />
+        <meta name="apple-mobile-web-app-status-bar-style" content={isLightBackground ? 'default' : 'black-translucent'} />
+      </Helmet>
       <header className={`fixed top-0 left-0 right-0 z-[9999] h-16 md:h-18 relative overflow-hidden transition-colors duration-300 ${isLightBackground ? 'bg-background bg-noise-light' : 'bg-primary bg-noise'}`} style={{ position: 'fixed', paddingBottom: '4px' }}>
         {/* Pattern background */}
         <div
