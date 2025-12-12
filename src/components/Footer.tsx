@@ -74,6 +74,8 @@ const Footer = () => {
                 src="/b2b/images/AM_logo_mini.svg" 
                 alt="Amprio Milano" 
                 className="h-14 md:h-18 w-auto mb-5 brightness-0 invert" 
+                loading="eager"
+                decoding="async"
               />
               <p className="text-primary-foreground/70 leading-relaxed mb-5" style={{ fontSize: '16.5px' }}>
                 Premium Italian tableware and décor for hotels, restaurants, and hospitality venues.

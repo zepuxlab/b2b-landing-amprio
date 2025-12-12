@@ -59,6 +59,8 @@ const Benefits = () => {
                   alt={benefit.title}
                   aria-hidden="true"
                   className="w-6 h-6" 
+                  loading="lazy"
+                  decoding="async"
                   style={{ 
                     filter: 'brightness(0) saturate(100%) invert(27%) sepia(64%) saturate(1234%) hue-rotate(170deg) brightness(95%) contrast(88%)',
                   }} 

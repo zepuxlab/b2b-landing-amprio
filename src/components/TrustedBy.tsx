@@ -105,6 +105,8 @@ const TrustedBy = () => {
                 src={brand.logo}
                 alt={brand.name}
                 className="max-w-full max-h-full object-contain filter brightness-0 invert opacity-90"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           ))}

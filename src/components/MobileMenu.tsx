@@ -59,7 +59,13 @@ const MobileMenu: React.FC<MobileMenuProps> = ({
               className="absolute left-1/2 -translate-x-1/2 cursor-pointer hover:opacity-80 transition-opacity"
               aria-label="Go to top"
             >
-              <img src="/b2b/images/logo_am_b2b.svg" alt="Amprio Milano" className="h-[36px] brightness-0 invert" />
+              <img 
+                src="/b2b/images/logo_am_b2b.svg" 
+                alt="Amprio Milano" 
+                className="h-[36px] brightness-0 invert" 
+                loading="eager"
+                decoding="async"
+              />
             </button>
             <div className="w-10" />
           </div>

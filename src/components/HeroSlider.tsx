@@ -102,17 +102,29 @@ const HeroSlider = () => {
   }, []);
 
   useEffect(() => {
+    if (isMobile) {
+      setParallaxOffset(0);
+      return;
+    }
+
+    let rafId: number | null = null;
     const handleScroll = () => {
-      const scrolled = window.scrollY;
-      // Отключаем параллакс на мобильных устройствах
-      setParallaxOffset(isMobile ? 0 : scrolled * 0.4);
-      // Show scroll to top button when scrolled down more than 300px
-      setShowScrollTop(scrolled > 300);
+      if (rafId !== null) return;
+      
+      rafId = requestAnimationFrame(() => {
+        const scrolled = window.scrollY;
+        setParallaxOffset(scrolled * 0.4);
+        setShowScrollTop(scrolled > 300);
+        rafId = null;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll(); // Check initial state
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, [isMobile]);
 
   // Функция для плавной прокрутки с easing
@@ -170,15 +182,32 @@ const HeroSlider = () => {
             index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
           }`}
         >
-          <div
-            className="absolute inset-0 bg-cover bg-center will-change-transform"
-            style={{ 
-              backgroundImage: `url(${slide.image})`,
-              transform: !isMobile 
-                ? `translateY(${parallaxOffset}px) scale(1.1)` 
-                : 'none',
-            }}
-          />
+          {/* Use img for first slide (LCP element), background-image for others */}
+          {index === 0 ? (
+            <img
+              src={slide.image}
+              alt={slide.title}
+              className="absolute inset-0 w-full h-full object-cover will-change-transform"
+              style={{ 
+                transform: !isMobile 
+                  ? `translateY(${parallaxOffset}px) scale(1.1)` 
+                  : 'none',
+              }}
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
+          ) : (
+            <div
+              className="absolute inset-0 bg-cover bg-center will-change-transform"
+              style={{ 
+                backgroundImage: `url(${slide.image})`,
+                transform: !isMobile 
+                  ? `translateY(${parallaxOffset}px) scale(1.1)` 
+                  : 'none',
+              }}
+            />
+          )}
           <div className="absolute inset-0" style={{ backgroundImage: "linear-gradient(to bottom, rgba(0,0,0,0.50), rgba(0,0,0,0.50))" }} />
         </div>
       ))}

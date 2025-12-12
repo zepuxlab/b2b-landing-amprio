@@ -79,6 +79,8 @@ const Team = () => {
                 src="/b2b/images/Gemini_Generated_Ima.png"
                 alt="Ibragimova Tatyana - Senior Sales Manager"
                 className="w-full h-full object-cover"
+                loading="lazy"
+                decoding="async"
               />
             </div>
           </div>

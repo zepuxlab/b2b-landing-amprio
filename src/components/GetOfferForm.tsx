@@ -43,18 +43,18 @@ const GetOfferForm = () => {
     if (countriesData?.countries && countriesData.countries.length > 0 && !selectedCountry) {
       // Use detected country from IP, or from API response defaultCountry, or fallback to AE
       const countryCodeToUse = detectedCountryCode || countriesData.defaultCountry || "AE";
-      
+          
       // Normalize country code to uppercase for comparison
       const normalizedCode = countryCodeToUse.toUpperCase();
       const detected = countriesData.countries.find(c => c.code.toUpperCase() === normalizedCode);
       
-      if (detected) {
-        setSelectedCountry(detected);
-      } else {
-        // Default to UAE if detected country not in list
+            if (detected) {
+              setSelectedCountry(detected);
+            } else {
+              // Default to UAE if detected country not in list
         const uae = countriesData.countries.find(c => c.code === "AE");
         setSelectedCountry(uae || countriesData.countries[0]);
-      }
+            }
     }
   }, [countriesData, detectedCountryCode, selectedCountry]);
 
@@ -62,12 +62,12 @@ const GetOfferForm = () => {
   useEffect(() => {
     if (countriesError && !selectedCountry) {
       const fallbackCountry: CountryData = {
-        code: "AE",
-        name: "UAE",
-        dialCode: "+971",
-        format: "00-000-0000",
-        placeholder: "00-000-0000",
-        flag: "🇦🇪"
+          code: "AE",
+          name: "UAE",
+          dialCode: "+971",
+          format: "00-000-0000",
+          placeholder: "00-000-0000",
+          flag: "🇦🇪"
       };
       setSelectedCountry(fallbackCountry);
     }
@@ -134,22 +134,22 @@ const GetOfferForm = () => {
     submitMutation.mutate(submissionData, {
       onSuccess: () => {
         // Reset form
-        setFormData({
-          name: "",
-          phone: "",
-          company: "",
-          email: "",
-          privacy: false,
-        });
-        
+    setFormData({
+      name: "",
+      phone: "",
+      company: "",
+      email: "",
+      privacy: false,
+    });
+    
         // Show success message
         toast({
           title: "Request submitted successfully!",
           description: "We will contact you within 24 hours.",
         });
-        
-        // Redirect to thank you page
-        navigate("/thank-you");
+    
+    // Redirect to thank you page
+    navigate("/thank-you");
       },
       onError: (error) => {
         console.error("Form submission error:", error);
@@ -203,7 +203,7 @@ const GetOfferForm = () => {
           {isLoading ? (
             <Loading text="Loading form..." className="py-8" />
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <input
               type="text"
               name="name"
@@ -314,8 +314,8 @@ const GetOfferForm = () => {
             </button>
           </form>
           )}
-              </div>
-            </div>
+          </div>
+        </div>
           </div>
           
           {/* Image Side - empty, uses common background */}

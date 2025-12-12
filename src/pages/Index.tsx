@@ -19,6 +19,13 @@ const Index = () => {
         <meta property="og:description" content="Amprio Milano offers premium Italian tableware and décor, blending elegance, durability" />
         <meta property="og:url" content="https://office.ampriomilano.com/b2b" />
         <meta property="og:image" content="https://office.ampriomilano.com/b2b/images/Baci_Milano_chiczen_.jpg" />
+        
+        {/* Preload critical resources for LCP */}
+        <link rel="preload" href="/b2b/images/brezee_1.jpg.webp" as="image" fetchPriority="high" />
+        <link rel="preload" href="https://office.ampriomilano.com/cdn/fonts/CabinetGrotesk-Regular.woff2" as="font" type="font/woff2" crossOrigin="anonymous" />
+        <link rel="preload" href="https://office.ampriomilano.com/cdn/fonts/SangBleuSunrise.ttf" as="font" type="font/truetype" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://office.ampriomilano.com" />
+        <link rel="dns-prefetch" href="https://office.ampriomilano.com" />
       </Helmet>
       <Header />
       <main className="min-h-screen">

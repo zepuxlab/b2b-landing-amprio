@@ -220,6 +220,9 @@ const Header = () => {
               src={isLightBackground ? "/b2b/images/logo_am_b2b_dark.svg" : "/b2b/images/logo_am_b2b.svg"} 
               alt="Amprio Milano" 
               className={`h-[36px] md:h-[44px] transition-all duration-300 ${isLightBackground ? '' : 'brightness-0 invert'}`}
+              loading="eager"
+              decoding="async"
+              fetchPriority="high"
             />
           </button>
 
