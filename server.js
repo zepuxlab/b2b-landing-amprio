@@ -115,9 +115,9 @@ function renderPreloadLinks(manifest, url) {
   }
 
   // Add all other entries
-  Object.values(manifest).forEach((entry: any) => {
+  Object.values(manifest).forEach((entry) => {
     if (entry.css) {
-      entry.css.forEach((file: string) => css.add(file));
+      entry.css.forEach((file) => css.add(file));
     }
     if (entry.file && entry.file.endsWith(".js")) {
       js.add(entry.file);
