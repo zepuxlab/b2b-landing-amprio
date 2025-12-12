@@ -36,7 +36,7 @@ export async function render(url: string, req: Request, res: Response) {
   const html = renderToString(
     <HelmetProvider context={helmetContext}>
       <QueryClientProvider client={queryClient}>
-        <StaticRouter location={normalizedUrl} basename="/b2b">
+        <StaticRouter location={normalizedUrl}>
           <App />
         </StaticRouter>
       </QueryClientProvider>
