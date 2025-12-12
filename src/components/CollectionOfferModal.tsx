@@ -309,16 +309,22 @@ const CollectionOfferModal = ({ open, onOpenChange, collection }: CollectionOffe
   if (isMobile) {
     return (
       <Drawer open={open} onOpenChange={onOpenChange}>
-        <DrawerContent className="h-[100vh] !rounded-none !top-0 no-handle !z-[10000]">
+        <DrawerContent className="h-[100vh] !rounded-none !top-0 no-handle !z-[10000] !border-0">
           <div className="flex flex-col h-full overflow-y-auto">
-            {/* Header with close button */}
-            <div className="flex items-center justify-end p-4 flex-shrink-0 border-b border-primary/10">
+            {/* Image with close button overlay */}
+            <div className="relative w-full h-[280px] flex-shrink-0">
+              <img
+                src={collection.image}
+                alt={collection.name}
+                className="w-full h-full object-cover rounded-t-[16px]"
+              />
+              {/* Close button overlay */}
               <button
                 onClick={() => onOpenChange(false)}
-                className="w-8 h-8 flex items-center justify-center text-primary hover:bg-primary/10 rounded-full transition-colors"
+                className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center bg-black/30 backdrop-blur-sm text-white hover:bg-black/50 rounded-full transition-colors z-10"
                 aria-label="Close"
               >
-                <X className="w-5 h-5" strokeWidth={1.5} />
+                <X className="w-4 h-4" strokeWidth={1.5} />
               </button>
             </div>
             
@@ -327,15 +333,6 @@ const CollectionOfferModal = ({ open, onOpenChange, collection }: CollectionOffe
               <h3 className="text-primary font-serif text-2xl uppercase tracking-wide">
                 Interested? {collection.name}
               </h3>
-            </div>
-            
-            {/* Image */}
-            <div className="w-full h-[280px] overflow-hidden flex-shrink-0">
-              <img
-                src={collection.image}
-                alt={collection.name}
-                className="w-full h-full object-cover"
-              />
             </div>
             
             {/* Description */}
@@ -475,7 +472,7 @@ const CollectionOfferModal = ({ open, onOpenChange, collection }: CollectionOffe
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogOverlay />
-      <DialogContent className="max-w-5xl w-full p-0 gap-0 grid grid-cols-[1fr,1.2fr] overflow-hidden">
+      <DialogContent className="max-w-5xl w-full p-0 gap-0 grid grid-cols-[1fr,1.2fr] overflow-hidden !border-0">
         {/* Left: Image */}
         <div className="relative w-full h-full min-h-[500px] overflow-hidden">
           <img
