@@ -32,7 +32,16 @@ if (!isProduction) {
 // Use middleware without path to catch all routes
 app.use(async (req, res) => {
   try {
-    const url = req.originalUrl.replace(base, "");
+    // Get URL and normalize it
+    let url = req.originalUrl;
+    // Remove base path if present
+    if (url.startsWith(base)) {
+      url = url.replace(base, "") || "/";
+    }
+    // Ensure it starts with /
+    if (!url.startsWith("/")) {
+      url = "/" + url;
+    }
 
     let template;
     let render;
