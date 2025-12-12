@@ -28,8 +28,8 @@ if (!isProduction) {
   app.use(base, sirv("./dist/client", { extensions: [] }));
 }
 
-// Serve HTML
-app.use("*", async (req, res) => {
+// Serve HTML - catch all routes
+app.get("*", async (req, res) => {
   try {
     const url = req.originalUrl.replace(base, "");
 
