@@ -29,7 +29,8 @@ if (!isProduction) {
 }
 
 // Serve HTML - catch all routes (must be last)
-app.all("*", async (req, res) => {
+// Use middleware without path to catch all routes
+app.use(async (req, res) => {
   try {
     const url = req.originalUrl.replace(base, "");
 
