@@ -107,7 +107,7 @@ function renderPreloadLinks(manifest, url) {
   const mainEntry = manifest["index.html"];
   if (mainEntry) {
     if (mainEntry.css) {
-      mainEntry.css.forEach((file: string) => css.add(file));
+      mainEntry.css.forEach((file) => css.add(file));
     }
     if (mainEntry.file) {
       js.add(mainEntry.file);
